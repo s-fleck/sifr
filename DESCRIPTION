@@ -1,0 +1,18 @@
+Package: sifr
+Type: Package
+Title: Search and Replace in R Source Files
+Version: 0.0.1
+Authors@R: person("Stefan", "Fleck", email = "stefan.b.fleck@gmail.com", role = c("aut", "cre"))
+Maintainer: Stefan Fleck <stefan.b.fleck@gmail.com>
+Description: 
+    Experimental Package. Use at own risk
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat
+Imports:
+    stringr,
+    data.table
+RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)
