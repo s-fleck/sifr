@@ -1,3 +1,17 @@
+#' Title
+#'
+#' @param x
+#' @param pattern
+#' @param replace
+#' @param case_sensitive
+#' @param file_case_sensitive
+#' @param file_pattern
+#' @param recursive
+#'
+#' @return
+#' @export
+#'
+#' @examples
 sed_replace <- function(
   x,
   pattern,

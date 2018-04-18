@@ -1,3 +1,17 @@
+#' Title
+#'
+#' @param x
+#' @param pattern
+#' @param case_sensitive
+#' @param regex
+#' @param file_pattern
+#' @param file_case_sensitive
+#' @param recursive
+#'
+#' @return
+#' @export
+#'
+#' @examples
 sif <- function(
   x,
   pattern,
