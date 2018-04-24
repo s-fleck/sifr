@@ -5,7 +5,7 @@ Version: 0.0.1.9002
 Authors@R: person("Stefan", "Fleck", email = "stefan.b.fleck@gmail.com", role = c("aut", "cre"))
 Maintainer: Stefan Fleck <stefan.b.fleck@gmail.com>
 Description: 
-    Experimental Package. Use at own risk
+    Search and replace regex patterns accross R source files (and other files).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
