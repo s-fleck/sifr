@@ -53,8 +53,8 @@ sif <- function(
   res <- data.table::rbindlist(res)
 
   if (identical(nrow(res), 0L)){
-    cat(sprintf(
-      "No files found in '%s' that containt the%spattern '%s'",
+    message(sprintf(
+      "No files found in '%s' that containt the%spattern '%s'\n",
       colt::clt_chr_accent(dir),
       ifelse(regex, " regex ", " "),
       colt::clt_chr_accent(pattern)
@@ -76,7 +76,7 @@ grep_file <- function(
   case_sensitive = TRUE,
   highlight = FALSE
 ){
-  lines <- readLines(x)
+  lines <- suppressWarnings(readLines(x))
 
   if (!regex){
     sel <- stringi::stri_detect_fixed(

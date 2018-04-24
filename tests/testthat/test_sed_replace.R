@@ -7,11 +7,9 @@ test_that("sif_replace works as expected", {
 
   sed_replace(x, pattern = "match_me_sif_3", "match_me_sif_33", file_pattern = "sif_test\\.r")
 
-  sif(x, "match_me_sif_3")
+  sif("match_me_sif_3", x)
+
   sed_replace(x, pattern = "match_me_sif_33", "match_me_sif_3", file_pattern = "sif_test\\.r")
-
-
-  y
 
 
 })

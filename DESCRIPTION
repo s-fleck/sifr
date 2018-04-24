@@ -1,7 +1,7 @@
 Package: sifr
 Type: Package
 Title: Search and Replace in R Source Files
-Version: 0.0.1.9001
+Version: 0.0.1.9002
 Authors@R: person("Stefan", "Fleck", email = "stefan.b.fleck@gmail.com", role = c("aut", "cre"))
 Maintainer: Stefan Fleck <stefan.b.fleck@gmail.com>
 Description: 
