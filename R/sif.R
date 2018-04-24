@@ -55,7 +55,7 @@ sif <- function(
   if (identical(nrow(res), 0L)){
     message(sprintf(
       "No files found in '%s' that containt the%spattern '%s'\n",
-      colt::clt_chr_accent(dir),
+      colt::clt_chr_accent(normalizePath(dir)),
       ifelse(regex, " regex ", " "),
       colt::clt_chr_accent(pattern)
     ))
