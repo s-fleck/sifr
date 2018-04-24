@@ -76,7 +76,7 @@ grep_file <- function(
   case_sensitive = TRUE,
   highlight = FALSE
 ){
-  lines <- readr::read_lines(x)
+  lines <- readLines(x)
 
   if (!regex){
     sel <- stringi::stri_detect_fixed(
