@@ -33,12 +33,15 @@ sed_replace <- function(
   )
 
   if (identical(nrow(m), 0L)){
-    message("Nothing to replace")
+    message("Nothing to replace\n")
     return(invisible())
   }
 
   for (f in m$file){
-    scan(pipe(sprintf("sed -i 's/%s/%s/' %s", pattern, replace, f)))
+    system2(
+      "sed",
+      sprintf("-i 's/%s/%s/' %s", pattern, replace, f)
+    )
   }
 
   m
