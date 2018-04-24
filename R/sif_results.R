@@ -4,15 +4,15 @@ sif_result <- function(x){
 }
 
 
-#' Title
+#' Printing Sif Results
 #'
-#' @param .f
+#' @param x a `sif_result`
+#' @param ... ignored
 #'
-#' @return
+#' @return `x` (invisibly)
 #' @export
 #'
-#' @examples
-print.sif_result <- function(x){
+print.sif_result <- function(x, ...){
 
   dd <- data.table::copy(x)
 
@@ -28,6 +28,8 @@ print.sif_result <- function(x){
     cat("\n")
 
   })
+
+  invisible(x)
 }
 
 

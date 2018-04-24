@@ -1,28 +1,41 @@
-#' Title
+#' Detect pattern accross multiple files
 #'
-#' @param x
-#' @param pattern
-#' @param case_sensitive
-#' @param regex
-#' @param file_pattern
-#' @param file_case_sensitive
-#' @param recursive
+#' @param pattern `character` scalar. A pattern for which to search in files.
+#' @param regex `logical` scalar. If `TRUE` `pattern` ins intepreted as regular
+#'   expression.
+#' @param dir `character` scalar. A file system path to the directory in which
+#'   files should be search.
+#' @param case_sensitive `logical`.
+#'   if `TRUE` `pattern` is matched case sensitvely
+#' @param file_pattern `character` scalar. A regular expression pattern to match
+#'   file paths against.
+#' @param file_case_sensitive `logical`. If `TRUE` `file_pattern` is matched
+#'   case sensitively
+#' @param recursive `logical` scalar. If `TRUE` files are searched recursively
+#'   starting from `dir`.
 #'
-#' @return
+#' @return A `sif_result` `data.table` that contains all matched lines
 #' @export
 #'
-#' @examples
 sif <- function(
-  x,
   pattern,
+  dir = ".",
+  regex = TRUE,
   case_sensitive = TRUE,
-  regex = FALSE,
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)",
   file_case_sensitive = FALSE,
   recursive = TRUE
 ){
+  stopifnot(is_scalar_character(pattern))
+  stopifnot(dir.exists(dir))
+  stopifnot(is_scalar_logical(regex))
+  stopifnot(is_scalar_logical(case_sensitive))
+  stopifnot(is_scalar_character(file_pattern))
+  stopifnot(is_scalar_logical(file_case_sensitive))
+  stopifnot(is_scalar_logical(recursive))
+
   files <- list.files(
-    x,
+    dir,
     full.names = TRUE,
     pattern = file_pattern,
     ignore.case = !file_case_sensitive,
@@ -30,9 +43,27 @@ sif <- function(
     all.files = TRUE
   )
 
-  res <- lapply(files, grep_file, pattern = pattern, case_sensitive = case_sensitive, regex = regex, highlight = TRUE)
-  sif_result(data.table::rbindlist(res))
+  res <- lapply(files, grep_file,
+    pattern = pattern,
+    case_sensitive = case_sensitive,
+    regex = regex,
+    highlight = TRUE
+  )
 
+  res <- data.table::rbindlist(res)
+
+  if (identical(nrow(res), 0L)){
+    cat(sprintf(
+      "No files found in '%s' that containt the%spattern '%s'",
+      colt::clt_chr_accent(dir),
+      ifelse(regex, " regex ", " "),
+      colt::clt_chr_accent(pattern)
+    ))
+
+    invisible(NULL)
+  } else {
+    sif_result(res)
+  }
 }
 
 
@@ -65,23 +96,19 @@ grep_file <- function(
     return(NULL)
   }
 
-  if (!regex && highlight){
-    data.table(
-      file = x,
-      ln = which(sel),
-      text = stringi::stri_replace_all_fixed(lines[sel], pattern, colt::clt_maybe(pattern)
-    ))
+  lines <- lines[sel]
 
-  } else {
-    data.table(
-      file = x,
-      ln = which(sel),
-      text = lines[sel]
-    )
-
+  if (highlight){
+    if (regex){
+      lines <- stringr::str_replace_all(lines, pattern, colt::clt_maybe)
+    } else {
+      lines <- stringi::stri_replace_all_fixed(lines, pattern, colt::clt_maybe(pattern))
+    }
   }
 
-
-
-
+  data.table(
+    file = x,
+    ln = which(sel),
+    text = lines
+  )
 }
