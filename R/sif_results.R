@@ -4,6 +4,32 @@ sif_result <- function(x){
 }
 
 
+#' Title
+#'
+#' @param x
+#' @param strip_style
+#'
+#' @return
+#' @export
+#'
+#' @examples
+as.data.frame.sif_result <- function(
+  x,
+  strip_style = TRUE
+){
+
+  if (strip_style){
+    x <- data.table::copy(x)
+    x[, text := vapply(text, crayon::strip_style, character(1))]
+  }
+
+  x <- data.table:::as.data.frame.data.table(x)
+  x
+
+
+}
+
+
 #' Printing Sif Results
 #'
 #' @param x a `sif_result`
