@@ -24,13 +24,11 @@ sifkw <- function(
     r[, pos := list(stringi::stri_locate_all_regex(r$text, paste0("(", keywords , ")", collapse  = "|"))) ]
 
   } else {
-
     matches <- list()
 
     for (kw in keywords){
       matches[[kw]] <- stringi::stri_locate_all_fixed(r$text, kw)
     }
-
 
     matches <- do.call(
       mapply,

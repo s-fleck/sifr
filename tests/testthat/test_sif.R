@@ -6,10 +6,7 @@ test_that("sif works as expected", {
   d <- testthis::find_testdata()
   y <- sif(d, pattern = "match_me_sif_.*", regex = FALSE)
   expect_null(y)
-  print(sif(d, pattern = "match_me_sif", regex = FALSE))
-
   y <- sif(d, pattern = "match_me_sif_.*", regex = TRUE)
-  print(y)
 
   expect_true(any(grepl("sif_test.r", y$file)))
   expect_true(any(grepl("sif_test.rMd", y$file)))
@@ -22,14 +19,6 @@ test_that("grep_file", {
   res <-
     grep_file(testthis::find_testdata("sif_test.r"), pattern = "match_me_sif")
 
-
-  expect_true(any(grepl("sif_test.r", y$file)))
-  expect_true(any(grepl("sif_test.rMd", y$file)))
-
-  grep_file(
-    rprojroot::find_testthat_root_file("testdata", "sif_test.r"),
-    "match_me_sif_.*"
-  )
 })
 
 
@@ -52,6 +41,23 @@ test_that("color_at_pos", {
   r2 <- sifkw(c("bar", "ash"), testthis::find_testdata(), regex = FALSE)
   as.data.frame(r1)
   as.data.frame(r2)
-
   expect_identical(r1, r2)
+})
+
+
+
+test_that("visual verrification", {
+
+  d <- testthis::find_testdata()
+
+  cat("\n\n")
+  print(sif(d, pattern = "match_me_sif_.*", regex = FALSE))
+
+  cat("\n\n")
+  print(sif(d, pattern = "match_me_sif_.*", regex = TRUE))
+
+  cat("\n\n")
+  print(sifkw(c("bar", "ash"), testthis::find_testdata(), regex = TRUE))
+  print(sifkw(c("bar", "ash"), testthis::find_testdata(), regex = FALSE))
+  cat("\n\n")
 })

@@ -64,7 +64,6 @@ sif <- function(
       )
     }
   )
-
   res <- data.table::rbindlist(res)
 
   if (identical(nrow(res), 0L)){
@@ -77,7 +76,7 @@ sif <- function(
 
     invisible(NULL)
   } else {
-    sif_result(res)
+    as_sif_result(res)
   }
 }
 
@@ -93,37 +92,26 @@ grep_file <- function(
 ){
   lines <- suppressWarnings(readLines(x))
 
-  if (!regex){
-    sel <- stringi::stri_detect_fixed(
-      lines,
-      pattern,
-      opts_regex = stringi::stri_opts_fixed(case_insensitive = !case_sensitive)
-    )
+
+  opts_regex <- stringi::stri_opts_fixed(case_insensitive = !case_sensitive)
+
+  if (regex){
+    detector <- stringi::stri_detect_regex
+    locator  <- stringi::stri_locate_all_regex
   } else {
-    sel <- stringi::stri_detect_regex(
-      lines,
-      pattern,
-      opts_regex = stringi::stri_opts_regex(case_insensitive = !case_sensitive)
-    )
+    detector <- stringi::stri_detect_fixed
+    locator  <- stringi::stri_locate_all_fixed
   }
 
-  if (!any(sel)){
-    return(NULL)
-  }
+  sel   <- detector(lines, pattern, opts_regex = opts_regex)
+  if (sum(sel) == 0)  return(NULL)
 
   lines <- lines[sel]
 
-  if (highlight){
-    if (regex){
-      lines <- stringr::str_replace_all(lines, pattern, colt::clt_maybe)
-    } else {
-      lines <- stringi::stri_replace_all_fixed(lines, pattern, colt::clt_maybe(pattern))
-    }
-  }
-
-  data.table(
+  res <- data.table(
     file = x,
-    ln = which(sel),
+    ln   = which(sel),
+    pos  = locator(lines, pattern, opts_regex = opts_regex),
     text = lines
   )
 }
