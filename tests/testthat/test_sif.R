@@ -3,15 +3,24 @@ context("sif")
 
 test_that("sif works as expected", {
 
-  x <- "~/rpkgs"
-  y <- sif(x, pattern = "match_me_sif_.*")
-  y <- sif(x, pattern = "match_me_sif_.*", regex = TRUE)
+  d <- testthis::find_testdata()
+  y <- sif(d, pattern = "match_me_sif_.*", regex = FALSE)
+  expect_null(y)
+  print(sif(d, pattern = "match_me_sif", regex = FALSE))
 
-  sif(x, pattern = "dint::date")
+  y <- sif(d, pattern = "match_me_sif_.*", regex = TRUE)
+  print(y)
 
-  class(y)
+  expect_true(any(grepl("sif_test.r", y$file)))
+  expect_true(any(grepl("sif_test.rMd", y$file)))
+})
 
-  y
+
+
+
+test_that("grep_file", {
+  res <-
+    grep_file(testthis::find_testdata("sif_test.r"), pattern = "match_me_sif")
 
 
   expect_true(any(grepl("sif_test.r", y$file)))
@@ -21,5 +30,28 @@ test_that("sif works as expected", {
     rprojroot::find_testthat_root_file("testdata", "sif_test.r"),
     "match_me_sif_.*"
   )
+})
 
+
+
+
+test_that("color_at_pos", {
+  pos <- matrix(c(5, 10, 8, 12), ncol = 2, dimnames = list(NULL, c("start", "end")))
+
+  expect_identical(
+    color_at_pos("foo-blue-red-bar", pos),
+    "foo-\033[38;5;117mblue\033[39m-\033[38;5;117mred\033[39m-bar"
+  )
+})
+
+
+
+
+test_that("color_at_pos", {
+  r1 <- sifkw(c("bar", "ash"), testthis::find_testdata(), regex = TRUE)
+  r2 <- sifkw(c("bar", "ash"), testthis::find_testdata(), regex = FALSE)
+  as.data.frame(r1)
+  as.data.frame(r2)
+
+  expect_identical(r1, r2)
 })
