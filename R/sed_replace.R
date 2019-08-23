@@ -1,7 +1,7 @@
 #' Replace a matched Regular Expression Pattern Accross Multiple Files
 #'
-#' Uses **sed** to replace text in files inplace. Only works on Linux like
-#' systems with **sed** installed.
+#' Uses **sed** to replace text in files inplace. Only works on POSIX
+#' systems where **sed** is available.
 #'
 #' @param pattern `character` scalar. A regular expression pattern for which to
 #'   search in files.
@@ -15,8 +15,8 @@
 #'
 sed_replace <- function(
   pattern,
-  dir,
   replace,
+  dir = ".",
   case_sensitive = TRUE,
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)",
   file_case_sensitive = FALSE,
