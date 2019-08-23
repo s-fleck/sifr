@@ -24,15 +24,18 @@ sif <- function(
   case_sensitive = TRUE,
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)",
   file_case_sensitive = FALSE,
-  recursive = TRUE
+  recursive = TRUE,
+  mc.cores = getOption("mc.cores", 2L)
 ){
-  stopifnot(is_scalar_character(pattern))
-  stopifnot(dir.exists(dir))
-  stopifnot(is_scalar_logical(regex))
-  stopifnot(is_scalar_logical(case_sensitive))
-  stopifnot(is_scalar_character(file_pattern))
-  stopifnot(is_scalar_logical(file_case_sensitive))
-  stopifnot(is_scalar_logical(recursive))
+  stopifnot(
+    is_scalar_character(pattern),
+    dir.exists(dir),
+    is_scalar_logical(regex),
+    is_scalar_logical(case_sensitive),
+    is_scalar_character(file_pattern),
+    is_scalar_logical(file_case_sensitive),
+    is_scalar_logical(recursive)
+  )
 
   files <- list.files(
     dir,
@@ -43,11 +46,23 @@ sif <- function(
     all.files = TRUE
   )
 
-  res <- lapply(files, grep_file,
-    pattern = pattern,
-    case_sensitive = case_sensitive,
-    regex = regex,
-    highlight = TRUE
+  pb <- progress::progress_bar$new(
+    total = length(files)
+  )
+
+  res <- parallel::mclapply(
+    files,
+    mc.cores = mc.cores,
+    function(f) {
+      pb$tick()
+      grep_file(
+        f,
+        pattern = pattern,
+        case_sensitive = case_sensitive,
+        regex = regex,
+        highlight = TRUE
+      )
+    }
   )
 
   res <- data.table::rbindlist(res)
