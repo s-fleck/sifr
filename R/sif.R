@@ -13,6 +13,7 @@
 #'   case sensitively
 #' @param recursive `logical` scalar. If `TRUE` files are searched recursively
 #'   starting from `dir`.
+#' @param encoding see [base::readLines()]
 #'
 #' @return A `sif_result` `data.table` that contains all matched lines
 #' @export
@@ -25,6 +26,7 @@ sif <- function(
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)",
   file_case_sensitive = FALSE,
   recursive = TRUE,
+  encoding = "unknown",
   mc.cores = getOption("mc.cores", 2L)
 ){
   stopifnot(
@@ -60,7 +62,8 @@ sif <- function(
         pattern = pattern,
         case_sensitive = case_sensitive,
         regex = regex,
-        highlight = TRUE
+        highlight = TRUE,
+        encoding = encoding
       )
     }
   )
@@ -88,9 +91,10 @@ grep_file <- function(
   pattern,
   regex = FALSE,
   case_sensitive = TRUE,
-  highlight = FALSE
+  highlight = FALSE,
+  encoding = "unknown"
 ){
-  lines <- suppressWarnings(readLines(x))
+  lines <- suppressWarnings(readLines(x, encoding = encoding))
 
 
   opts_regex <- stringi::stri_opts_fixed(case_insensitive = !case_sensitive)

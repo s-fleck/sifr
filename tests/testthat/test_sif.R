@@ -51,7 +51,10 @@ test_that("visual verrification", {
   d <- testthis::find_testdata()
 
   cat("\n\n")
-  print(sif(d, pattern = "match_me_sif_.*", regex = FALSE))
+  print(sif(d, pattern = "match_me_sif", regex = FALSE))
+
+  cat("\n\n")
+  print(sif(d, pattern = "match_me_sif", regex = TRUE))
 
   cat("\n\n")
   print(sif(d, pattern = "match_me_sif_.*", regex = TRUE))

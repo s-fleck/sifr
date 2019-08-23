@@ -12,7 +12,6 @@ LazyData: true
 Suggests: 
     testthat
 Imports:
-    stringr,
     stringi,
     data.table,
     colt

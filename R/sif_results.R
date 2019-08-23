@@ -5,10 +5,12 @@ as_sif_result <- function(x){
 
 
 
+
 as_sifkw_result <- function(x){
   class(x) <- c("sifkw_result", "sif_result", "data.table", "data.frame")
   x
 }
+
 
 
 
@@ -44,8 +46,7 @@ print.sif_result <- function(x, ...){
 #' @export
 #'
 print.sifkw_result <- function(x, ...){
-
-    dd <- data.table::copy(x)
+  dd <- data.table::copy(x)
   dd[, ln := colt::clt_chr_subtle(stringi::stri_pad_left(ln, max(nchar(ln)))) ]
 
 
@@ -72,11 +73,9 @@ is_sif_results <- function(x){
 
 
 
+
 color_at_pos = function(text, pos, color = colt::clt_chr_accent){
-
-
   stringi::stri_sub_all(text, pos[, "start"], pos[, "end"]) <-
     color(stringi::stri_sub(text, pos[, "start"], pos[, "end"]))
-
   text
 }
