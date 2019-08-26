@@ -20,7 +20,7 @@
 #'
 sif <- function(
   pattern,
-  dir = getOption("sifr.default_dir", "."),
+  dir = ".",
   markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
   regex = TRUE,
   case_sensitive = TRUE,
@@ -102,7 +102,7 @@ sif <- function(
 #' @export
 sifkw <- function(
   keywords,
-  dir = getOption("sifr.default_dir", "."),
+  dir = ".",
   markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
   regex = FALSE,
   case_sensitive = FALSE,
