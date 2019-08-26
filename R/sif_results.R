@@ -31,8 +31,16 @@ print.sif_result <- function(x, ...){
   dd <- data.table::copy(x)
   dd[, ln := colt::clt_chr_subtle(stringi::stri_pad_left(ln, max(nchar(ln)))) ]
 
+  path_old <- ""
   for (i in seq_len(nrow(dd))){
-    cat(color_at_pos(dd[i]$text, dd[i]$pos[[1]]), "\n")
+    path <- dd[i]$file
+
+    if (!identical(path, path_old)){
+      path_old <- path
+      cat("\n", colt::clt_warning(path), "\n", sep = "")
+    }
+
+    cat(dd$ln[[i]], " ", color_at_pos(dd$text[[i]], dd[i]$pos[[1]]), "\n")
   }
 
   invisible(x)
@@ -61,15 +69,22 @@ print.sifkw_result <- function(
   dd <- data.table::copy(x)
   dd[, ln := colt::clt_chr_subtle(stringi::stri_pad_left(ln, max(nchar(ln)))) ]
 
-
+  path_old <- ""
   for (i in seq_len(nrow(dd))){
+    path <- dd[i]$file
+
+    if (!identical(path, path_old)){
+      path_old <- path
+      cat("\n", colt::clt_warning(path), "\n", sep = "")
+    }
+
     s <- color_at_pos(dd[i]$text, dd[i]$pos[[1]], colt::clt_chr_accent)
     s <- stringi::stri_replace_first_regex(
       s,
       "keyword[s]{0,1}",
       colt::clt_error("$0")
     )
-    cat(s, "\n")
+    cat(dd[i]$ln, s, "\n")
   }
 
   invisible(x)
