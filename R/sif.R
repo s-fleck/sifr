@@ -26,8 +26,7 @@ sif <- function(
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)",
   file_case_sensitive = FALSE,
   recursive = TRUE,
-  encoding = "unknown",
-  mc.cores = getOption("mc.cores", 2L)
+  encoding = "unknown"
 ){
   stopifnot(
     is_scalar_character(pattern),
@@ -49,15 +48,9 @@ sif <- function(
   )
 
 
-  pb <- progress::progress_bar$new(
-    total = length(files)
-  )
-
-  res <- parallel::mclapply(
+  res <- lapply(
     files,
-    mc.cores = mc.cores,
     function(f) {
-      pb$tick()
       grep_file(
         f,
         pattern = pattern,
@@ -96,8 +89,7 @@ sifkw <- function(
   case_sensitive = FALSE,
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)|(.*\\.Rnw$))",
   file_case_sensitive = FALSE,
-  recursive = TRUE,
-  mc.cores = getOption("mc.cores", 2L)
+  recursive = TRUE
 ){
   r <- sifr::sif(
     paste0("keyword.*"),
@@ -106,8 +98,7 @@ sifkw <- function(
     case_sensitive = case_sensitive,
     file_pattern = file_pattern,
     file_case_sensitive = file_case_sensitive,
-    recursive = recursive,
-    mc.cores = mc.cores
+    recursive = recursive
   )
 
 
