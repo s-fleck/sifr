@@ -29,7 +29,7 @@ print.sif_result <- function(x, ...){
   }
 
   dd <- data.table::copy(x)
-  dd[, ln := colt::clt_chr_subtle(stringi::stri_pad_left(ln, max(nchar(ln)))) ]
+  dd[, ln := style_subtle(stringi::stri_pad_left(ln, max(nchar(ln)))) ]
 
   path_old <- ""
   for (i in seq_len(nrow(dd))){
@@ -37,7 +37,7 @@ print.sif_result <- function(x, ...){
 
     if (!identical(path, path_old)){
       path_old <- path
-      cat("\n", colt::clt_warning(path), "\n", sep = "")
+      cat("\n", style_path(path), "\n", sep = "")
     }
 
     cat(dd$ln[[i]], " ", color_at_pos(dd$text[[i]], dd[i]$pos[[1]]), "\n")
@@ -67,7 +67,7 @@ print.sifkw_result <- function(
   }
 
   dd <- data.table::copy(x)
-  dd[, ln := colt::clt_chr_subtle(stringi::stri_pad_left(ln, max(nchar(ln)))) ]
+  dd[, ln := style_subtle(stringi::stri_pad_left(ln, max(nchar(ln)))) ]
 
   path_old <- ""
   for (i in seq_len(nrow(dd))){
@@ -75,15 +75,12 @@ print.sifkw_result <- function(
 
     if (!identical(path, path_old)){
       path_old <- path
-      cat("\n", colt::clt_warning(path), "\n", sep = "")
+      cat("\n", style_path(path), "\n", sep = "")
     }
 
-    s <- color_at_pos(dd[i]$text, dd[i]$pos[[1]], colt::clt_chr_accent)
-    s <- stringi::stri_replace_first_regex(
-      s,
-      "keyword[s]{0,1}",
-      colt::clt_error("$0")
-    )
+    s <- color_at_pos(dd[i]$text, dd[i]$pos[[1]], style_accent)
+    s <- stringi::stri_replace_first_regex(s, "keyword[s]{0,1}", style_kw("$0"))
+
     cat(dd[i]$ln, s, "\n")
   }
 
@@ -101,7 +98,7 @@ is_sif_results <- function(x){
 
 
 
-color_at_pos = function(text, pos, color = colt::clt_chr_accent){
+color_at_pos = function(text, pos, color = style_accent){
   stringi::stri_sub_all(text, pos[, "start"], pos[, "end"]) <-
     color(stringi::stri_sub(text, pos[, "start"], pos[, "end"]))
   text
