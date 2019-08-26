@@ -21,6 +21,7 @@
 sif <- function(
   pattern,
   dir = getOption("sifr.default_dir", "."),
+  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
   regex = TRUE,
   case_sensitive = TRUE,
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)",
@@ -71,10 +72,27 @@ sif <- function(
       style_accent(pattern)
     ))
 
-    invisible(NULL)
+    return(invisible())
+  }
+
+  if (markers){
+    rstudioapi::sourceMarkers(
+      name = "sifr results",
+      markers = data.frame(
+        type = "info",
+        file = res$file,
+        line = res$ln,
+        column = 1,
+        message = res$text,
+        stringsAsFactors = FALSE
+      ),
+      basePath = fs::path_common(res$file)
+    )
+    invisible(as_sif_result(res))
   } else {
     as_sif_result(res)
   }
+
 }
 
 
@@ -85,31 +103,32 @@ sif <- function(
 sifkw <- function(
   keywords,
   dir = getOption("sifr.default_dir", "."),
+  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
   regex = FALSE,
   case_sensitive = FALSE,
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)|(.*\\.Rnw$))",
   file_case_sensitive = FALSE,
   recursive = TRUE
 ){
-  r <- sifr::sif(
+  res <- sifr::sif(
     paste0("keyword.*"),
     dir = dir,
     regex = TRUE,
     case_sensitive = case_sensitive,
     file_pattern = file_pattern,
     file_case_sensitive = file_case_sensitive,
-    recursive = recursive
+    recursive = recursive,
+    markers = FALSE
   )
 
-
   if (regex){
-    r[, pos := list(stringi::stri_locate_all_regex(r$text, paste0("(", keywords , ")", collapse  = "|"))) ]
+    res[, pos := list(stringi::stri_locate_all_regex(res$text, paste0("(", keywords , ")", collapse  = "|"))) ]
 
   } else {
     matches <- list()
 
     for (kw in keywords){
-      matches[[kw]] <- stringi::stri_locate_all_fixed(r$text, kw)
+      matches[[kw]] <- stringi::stri_locate_all_fixed(res$text, kw)
     }
 
     matches <- do.call(
@@ -117,11 +136,28 @@ sifkw <- function(
       c(list(rbindsort, SIMPLIFY = FALSE, USE.NAMES = FALSE), matches)
     )
 
-    r[, pos := matches]
+    res[, pos := matches]
   }
 
-  sel <- !vapply(r$pos, anyNA, logical(1))
-  as_sifkw_result(r[sel == TRUE, ])
+  res <- res[!vapply(res$pos, anyNA, logical(1))]
+
+  if (markers){
+    rstudioapi::sourceMarkers(
+      name = "sifr results",
+      markers = data.frame(
+        type = "info",
+        file = res$file,
+        line = res$ln,
+        column = 1,
+        message = res$text,
+        stringsAsFactors = FALSE
+      ),
+      basePath = fs::path_common(res$file)
+    )
+    invisible(as_sifkw_result(res))
+  } else {
+    as_sifkw_result(res)
+  }
 }
 
 
