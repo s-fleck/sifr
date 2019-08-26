@@ -23,6 +23,10 @@ as_sifkw_result <- function(x){
 #' @export
 #'
 print.sif_result <- function(x, ...){
+  if (nrow(x) < 1){
+    cat("No matches found")
+    return(x)
+  }
 
   dd <- data.table::copy(x)
   dd[, ln := colt::clt_chr_subtle(stringi::stri_pad_left(ln, max(nchar(ln)))) ]
@@ -45,7 +49,15 @@ print.sif_result <- function(x, ...){
 #' @return `x` (invisibly)
 #' @export
 #'
-print.sifkw_result <- function(x, ...){
+print.sifkw_result <- function(
+  x,
+  ...
+){
+  if (nrow(x) < 1){
+    cat("No matches found")
+    return(x)
+  }
+
   dd <- data.table::copy(x)
   dd[, ln := colt::clt_chr_subtle(stringi::stri_pad_left(ln, max(nchar(ln)))) ]
 
