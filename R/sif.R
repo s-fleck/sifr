@@ -125,18 +125,19 @@ sifkw <- function(
     r[, pos := matches]
   }
 
-
-  as_sifkw_result(r)
+  sel <- !vapply(r$pos, anyNA, logical(1))
+  as_sifkw_result(r[sel == TRUE, ])
 }
 
 
 
+
+# utils -------------------------------------------------------------------
 
 rbindsort <- function(...){
   res <- rbind(...)
   res[order(res[, 1]), ]
 }
-
 
 
 

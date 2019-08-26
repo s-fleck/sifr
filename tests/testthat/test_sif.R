@@ -46,6 +46,33 @@ test_that("color_at_pos", {
 
 
 
+
+test_that("sifkw works as expected", {
+
+  res <-
+    sifkw(c("bar", "ash"), testthis::find_testdata(), regex = TRUE)
+
+  expect_equal(
+    res$pos[[1]],
+    matrix(c(11, 13, 19, 21), byrow = TRUE, ncol = 2, dimnames = list(c(), c("start", "end")))
+  )
+
+  expect_equal(
+    res$pos[[2]],
+    matrix(c(14, 16, 19, 21), byrow = TRUE, ncol = 2, dimnames = list(c(), c("start", "end")))
+  )
+  # print(res)
+
+
+  res_fixed <-
+    sifkw(c("bar", "ash"), testthis::find_testdata(), regex = FALSE)
+
+  expect_identical(res, res_fixed)
+})
+
+
+
+
 test_that("visual verrification", {
 
   d <- testthis::find_testdata()

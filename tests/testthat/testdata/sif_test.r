@@ -8,5 +8,7 @@ dg
 
 keywords hash foo bar blah
 
+keyword keyword xxxx
+
 
 match_me_sif_378
