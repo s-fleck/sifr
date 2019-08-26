@@ -2,23 +2,13 @@ context("sif")
 
 
 test_that("sif works as expected", {
-
   d <- testthis::find_testdata()
-  y <- sif(d, pattern = "match_me_sif_.*", regex = FALSE)
+  y <- sif(d, pattern = "match_me_sif_.*", fixed = TRUE, markers = FALSE)
   expect_null(y)
-  y <- sif(d, pattern = "match_me_sif_.*", regex = TRUE)
+  y <- sif(d, pattern = "match_me_sif_.*", fixed = FALSE, markers = FALSE)
 
   expect_true(any(grepl("sif_test.r", y$file)))
   expect_true(any(grepl("sif_test.rMd", y$file)))
-})
-
-
-
-
-test_that("grep_file", {
-  res <-
-    grep_file(testthis::find_testdata("sif_test.r"), pattern = "match_me_sif")
-
 })
 
 
@@ -37,8 +27,8 @@ test_that("color_at_pos", {
 
 
 test_that("color_at_pos", {
-  r1 <- sifkw(c("bar", "ash"), testthis::find_testdata(), regex = TRUE)
-  r2 <- sifkw(c("bar", "ash"), testthis::find_testdata(), regex = FALSE)
+  r1 <- sifkw(c("bar", "ash"), testthis::find_testdata(), fixed = FALSE, markers = FALSE)
+  r2 <- sifkw(c("bar", "ash"), testthis::find_testdata(), fixed = TRUE, markers = FALSE)
   as.data.frame(r1)
   as.data.frame(r2)
   expect_identical(r1, r2)
@@ -50,7 +40,7 @@ test_that("color_at_pos", {
 test_that("sifkw works as expected", {
 
   res <-
-    sifkw(c("bar", "ash"), testthis::find_testdata(), regex = TRUE)
+    sifkw(c("bar", "ash"), testthis::find_testdata(), fixed = FALSE, markers = FALSE)
 
   expect_equal(
     res$pos[[1]],
@@ -65,29 +55,7 @@ test_that("sifkw works as expected", {
 
 
   res_fixed <-
-    sifkw(c("bar", "ash"), testthis::find_testdata(), regex = FALSE)
+    sifkw(c("bar", "ash"), testthis::find_testdata(), fixed = TRUE, markers = FALSE)
 
   expect_identical(res, res_fixed)
-})
-
-
-
-
-test_that("visual verrification", {
-
-  d <- testthis::find_testdata()
-
-  cat("\n\n")
-  print(sif(d, pattern = "match_me_sif", regex = FALSE))
-
-  cat("\n\n")
-  print(sif(d, pattern = "match_me_sif", regex = TRUE))
-
-  cat("\n\n")
-  print(sif(d, pattern = "match_me_sif_.*", regex = TRUE))
-
-  cat("\n\n")
-  print(sifkw(c("bar", "ash"), testthis::find_testdata(), regex = TRUE))
-  print(sifkw(c("bar", "ash"), testthis::find_testdata(), regex = FALSE))
-  cat("\n\n")
 })
