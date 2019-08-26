@@ -20,7 +20,7 @@
 #'
 sif <- function(
   pattern,
-  dir = ".",
+  dir = getOption("sifr.default_dir", "."),
   regex = TRUE,
   case_sensitive = TRUE,
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)",
@@ -47,6 +47,7 @@ sif <- function(
     recursive = recursive,
     all.files = TRUE
   )
+
 
   pb <- progress::progress_bar$new(
     total = length(files)
@@ -85,9 +86,12 @@ sif <- function(
 
 
 
+
+#' @rdname sif
+#' @export
 sifkw <- function(
   keywords,
-  dir = ".",
+  dir = getOption("sifr.default_dir", "."),
   regex = FALSE,
   case_sensitive = FALSE,
   file_pattern = "(.*\\.R$)|(.*\\.Rmd$)|(.*\\.Rnw$))",
