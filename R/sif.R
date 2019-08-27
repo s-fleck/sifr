@@ -75,24 +75,14 @@ sif <- function(
     return(invisible())
   }
 
-  if (markers){
-    rstudioapi::sourceMarkers(
-      name = "sifr results",
-      markers = data.frame(
-        type = "info",
-        file = res$file,
-        line = res$ln,
-        column = 1,
-        message = res$text,
-        stringsAsFactors = FALSE
-      ),
-      basePath = fs::path_common(res$file)
-    )
-    invisible(as_sif_result(res))
-  } else {
-    as_sif_result(res)
-  }
+  res <- as_sif_result(res, pattern)
 
+  if (markers){
+    source_markers(res)
+    invisible(res)
+  } else {
+    res
+  }
 }
 
 
@@ -140,22 +130,14 @@ sifkw <- function(
     res[, pos := matches]
   }
 
-  res <- res[!vapply(res$pos, anyNA, logical(1))]
+  res <- as_sifkw_result(
+    res[!vapply(res$pos, anyNA, logical(1))],
+    keywords
+  )
 
   if (markers){
-    rstudioapi::sourceMarkers(
-      name = "sifr results",
-      markers = data.frame(
-        type = "info",
-        file = res$file,
-        line = res$ln,
-        column = 1,
-        message = res$text,
-        stringsAsFactors = FALSE
-      ),
-      basePath = fs::path_common(res$file)
-    )
-    invisible(as_sifkw_result(res))
+    source_markers(res)
+    invisible((res))
   } else {
     as_sifkw_result(res)
   }
