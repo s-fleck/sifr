@@ -1,15 +1,12 @@
-context("sif_replace")
+context("sed_replace")
 
 
-test_that("sif_replace works as expected", {
+test_that("sed_replace works as expected", {
+  skip("test manually")
 
-  x <- "~/rpkgs/sifr"
+  dir <- testthis::find_testdata()
+  sed_replace(pattern = "match_me_sif_3", "match_me_sif_33", dir = dir, file_pattern = "sif_test\\.r")
 
-  sed_replace(x, pattern = "match_me_sif_3", "match_me_sif_33", file_pattern = "sif_test\\.r")
-
-  sif("match_me_sif_3", x)
-
-  sed_replace(x, pattern = "match_me_sif_33", "match_me_sif_3", file_pattern = "sif_test\\.r")
-
-
+  sif("match_me_sif_3", markers = FALSE)
+  sed_replace(pattern = "match_me_sif_33", "match_me_sif_3", dir = dir, file_pattern = "sif_test\\.r")
 })

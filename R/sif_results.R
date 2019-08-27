@@ -140,7 +140,6 @@ color_at_pos = function(text, pos, color = style_accent){
 
 
 source_markers <- function(x){
-
   if (inherits(x, "sifkw_result"))
     name <- paste("sifkw:", paste(attr(x, "keywords"), collapse = ", "))
   else if (inherits(x, "sif_result"))

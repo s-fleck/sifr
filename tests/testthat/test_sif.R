@@ -15,11 +15,12 @@ test_that("sif works as expected", {
 
 
 test_that("color_at_pos", {
+
   pos <- matrix(c(5, 10, 8, 12), ncol = 2, dimnames = list(NULL, c("start", "end")))
 
   expect_identical(
-    color_at_pos("foo-blue-red-bar", pos),
-    "foo-\033[38;5;117mblue\033[39m-\033[38;5;117mred\033[39m-bar"
+    color_at_pos("foo-blue-red-bar", pos, color = crayon::cyan),
+    "foo-\033[36mblue\033[39m-\033[36mred\033[39m-bar"
   )
 })
 

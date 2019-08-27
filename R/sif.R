@@ -139,7 +139,7 @@ sifkw <- function(
     source_markers(res)
     invisible((res))
   } else {
-    as_sifkw_result(res)
+    res
   }
 }
 

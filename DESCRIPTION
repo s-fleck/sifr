@@ -1,19 +1,28 @@
-Package: sifr
 Type: Package
+Package: sifr
 Title: Search and Replace in R Source Files
 Version: 0.0.2.9000
-Authors@R: person("Stefan", "Fleck", email = "stefan.b.fleck@gmail.com", role = c("aut", "cre"))
+Authors@R: 
+    person(given = "Stefan",
+           family = "Fleck",
+           role = c("aut", "cre"),
+           email = "stefan.b.fleck@gmail.com",
+           comment = c(ORCID = "0000-0003-3344-9851"))
 Maintainer: Stefan Fleck <stefan.b.fleck@gmail.com>
-Description: 
-    Search and replace regex patterns accross R source files (and other files).
+Description: Search and replace regex patterns accross R source
+    files (and other files).
 License: MIT + file LICENSE
+Imports:
+    data.table,
+    fs,
+    stringi
+Suggests: 
+    colt,
+    crayon,
+    rstudioapi,
+    testthat,
+    testthis
 Encoding: UTF-8
 LazyData: true
-Suggests: 
-    testthat,
-    colt
-Imports:
-    stringi,
-    data.table
-RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1

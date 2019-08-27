@@ -29,7 +29,8 @@ sed_replace <- function(
     file_case_sensitive = file_case_sensitive,
     file_pattern = file_pattern,
     recursive = recursive,
-    regex = TRUE
+    fixed = FALSE,
+    markers = FALSE
   )
 
   if (identical(nrow(m), 0L)){
