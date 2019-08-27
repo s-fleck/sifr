@@ -38,7 +38,7 @@ sed_replace <- function(
     return(invisible())
   }
 
-  for (f in m$file){
+  for (f in m$path){
     system2(
       "sed",
       sprintf("-i 's/%s/%s/' %s", pattern, replace, f)

@@ -7,8 +7,8 @@ test_that("sif works as expected", {
   expect_null(y)
   y <- sif(d, pattern = "match_me_sif_.*", fixed = FALSE, markers = FALSE)
 
-  expect_true(any(grepl("sif_test.r", y$file)))
-  expect_true(any(grepl("sif_test.rMd", y$file)))
+  expect_true(any(grepl("sif_test.r", y$path)))
+  expect_true(any(grepl("sif_test.rMd", y$path)))
 })
 
 

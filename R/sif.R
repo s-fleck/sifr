@@ -1,5 +1,11 @@
 #' Detect pattern accross multiple files
 #'
+#' `sif()` recursively searches all files inside a directory for a term
+#' (usually a regex pattern). If used interactively from Rstudio it defaults
+#' to displaying the results in the Markers pane. This is very similar to
+#' RStudios *find in files* feature, but has the advantage that the search
+#' results are also returned as a `data.frame` that can be further processed.
+#'
 #' @param pattern `character` scalar. A pattern for which to search in files.
 #' @param regex `logical` scalar. If `TRUE` `pattern` ins intepreted as regular
 #'   expression.
@@ -15,8 +21,34 @@
 #'   starting from `dir`.
 #' @param encoding see [base::readLines()]
 #'
-#' @return A `sif_result` `data.table` that contains all matched lines
+#' @return
+#'   A `sif_result` or `sifkw_results` `data.table` with the columns:
+#'
+#'   * `path` - path to the file,
+#'   * `ln` - line number,
+#'   * `pos` - a list column of numeric two-column `matrices` indicating start
+#'      and end of each match, see [stringi::stri_locate_all()]
+#'   * `contents` - the text contents of the line
+#'
+#'   The returned object may also contain the attributes `"pattern"`
+#'   (for `sif()`) or `"keywords"` (for `sifkw()`) that contain the original
+#'   search terms
+#'
 #' @export
+#'
+#' @examples
+#'  tf <- tempfile(fileext = ".csv")
+#'  write.csv(iris, tf)
+#'
+#'  x <- sif("5.5", dir = dirname(tf), markers = FALSE, file_pattern = ".*\\.csv$")
+#'
+#'  print(x)
+#'  as.data.frame(x)
+#'  attr(x, "pattern")
+#'
+#'  if (requireNamespace("rstudioapi")){
+#'    print(x, markers = TRUE)
+#'  }
 #'
 sif <- function(
   pattern,
@@ -88,6 +120,13 @@ sif <- function(
 
 
 
+#' `sifkw()` is like `sif()` but only searches in rows that contain the term
+#' `keyword`. This is useful for searching rmarkdown documents that
+#' contain a `keywords: ` directive in the YAML header or `@keywords` roxygen
+#' tags.
+#'
+#' @keywords a `character` vector of keywords
+#'
 #' @rdname sif
 #' @export
 sifkw <- function(
@@ -113,13 +152,13 @@ sifkw <- function(
   )
 
   if (!fixed){
-    res[, pos := list(stringi::stri_locate_all_regex(res$text, paste0("(", keywords , ")", collapse  = "|"))) ]
+    res[, pos := list(stringi::stri_locate_all_regex(res$contents, paste0("(", keywords , ")", collapse  = "|"))) ]
 
   } else {
     matches <- list()
 
     for (kw in keywords){
-      matches[[kw]] <- stringi::stri_locate_all_fixed(res$text, kw)
+      matches[[kw]] <- stringi::stri_locate_all_fixed(res$contents, kw)
     }
 
     matches <- do.call(
@@ -181,9 +220,9 @@ grep_file <- function(
   lines <- lines[sel]
 
   res <- data.table(
-    file = x,
+    path = x,
     ln   = which(sel),
     pos  = locator(lines, pattern, opts_regex = opts_regex),
-    text = lines
+    contents = lines
   )
 }

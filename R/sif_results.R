@@ -50,14 +50,14 @@ print.sif_result <- function(
 
     path_old <- ""
     for (i in seq_len(nrow(dd))){
-      path <- dd[i]$file
+      path <- dd[i]$path
 
       if (!identical(path, path_old)){
         path_old <- path
         cat("\n", style_path(path), "\n", sep = "")
       }
 
-      cat(dd$ln[[i]], " ", color_at_pos(dd$text[[i]], dd[i]$pos[[1]]), "\n")
+      cat(dd$ln[[i]], " ", color_at_pos(dd$contents[[i]], dd[i]$pos[[1]]), "\n")
     }
 
   invisible(x)
@@ -103,14 +103,14 @@ print.sifkw_result <- function(
 
     path_old <- ""
     for (i in seq_len(nrow(dd))){
-      path <- dd[i]$file
+      path <- dd[i]$path
 
       if (!identical(path, path_old)){
         path_old <- path
         cat("\n", style_path(path), "\n", sep = "")
       }
 
-      s <- color_at_pos(dd[i]$text, dd[i]$pos[[1]], style_accent)
+      s <- color_at_pos(dd[i]$contents, dd[i]$pos[[1]], style_accent)
       s <- stringi::stri_replace_first_regex(s, "keyword[s]{0,1}", style_kw("$0"))
 
       cat(dd[i]$ln, s, "\n")
@@ -149,12 +149,12 @@ source_markers <- function(x){
     name = name,
     markers = data.frame(
       type = "info",
-      file = x$file,
+      file = x$path,
       line = x$ln,
       column = 1,
-      message = x$text,
+      message = x$contents,
       stringsAsFactors = FALSE
     ),
-    basePath = fs::path_common(x$file)
+    basePath = fs::path_common(x$path)
   )
 }
