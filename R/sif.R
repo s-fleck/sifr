@@ -7,19 +7,22 @@
 #' results are also returned as a `data.frame` that can be further processed.
 #'
 #' @param pattern `character` scalar. A pattern for which to search in files.
-#' @param regex `logical` scalar. If `TRUE` `pattern` ins intepreted as regular
-#'   expression.
+#' @param fixed `logical` scalar. If `FALSE` `pattern` is
+#'   intepreted as regular expression, else the string is matched as-is.
 #' @param dir `character` scalar. A file system path to the directory in which
 #'   files should be search.
-#' @param case_sensitive `logical`.
-#'   if `TRUE` `pattern` is matched case sensitvely
-#' @param file_pattern `character` scalar. A regular expression pattern to match
-#'   file paths against.
-#' @param file_case_sensitive `logical`. If `TRUE` `file_pattern` is matched
-#'   case sensitively
+#' @param case_sensitive `logical` scalar. If `TRUE` `pattern` is matched
+#'   case sensitvely.
+#' @param path_pattern `character` scalar. A regular expression pattern to match
+#'   file paths against. Defaults to common source files for R
+#'   (`.R`, `.Rmd`, `Rnw`, `Rhtml`, `c`, `cpp`). Please note that `.Rd` files
+#'   are *not* included by default. You can modify the default behaviour by
+#'   setting the [option()] `sifr.path_pattern`.
+#' @param path_case_sensitive `logical`. If `TRUE` `path_pattern` is matched
+#'   case sensitively.
 #' @param recursive `logical` scalar. If `TRUE` files are searched recursively
 #'   starting from `dir`.
-#' @param encoding see [base::readLines()]
+#' @param encoding passed on to [base::readLines()]
 #'
 #' @return
 #'   A `sif_result` or `sifkw_results` `data.table` with the columns:
@@ -40,7 +43,7 @@
 #'  tf <- tempfile(fileext = ".csv")
 #'  write.csv(iris, tf)
 #'
-#'  x <- sif("5.5", dir = dirname(tf), markers = FALSE, file_pattern = ".*\\.csv$")
+#'  x <- sif("5.5", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
 #'
 #'  print(x)
 #'  as.data.frame(x)
@@ -56,26 +59,26 @@ sif <- function(
   markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
   fixed = FALSE,
   case_sensitive = TRUE,
-  file_pattern = "(.*\\.R$)|(.*\\.Rmd$)",
-  file_case_sensitive = FALSE,
+  path_pattern = getOption("sifr.path_pattern"),
+  path_case_sensitive = FALSE,
   recursive = TRUE,
   encoding = "unknown"
 ){
   stopifnot(
     is_scalar_character(pattern),
     dir.exists(dir),
-    is_scalar_logical(fixed),
-    is_scalar_logical(case_sensitive),
-    is_scalar_character(file_pattern),
-    is_scalar_logical(file_case_sensitive),
-    is_scalar_logical(recursive)
+    is_scalar_bool(fixed),
+    is_scalar_bool(case_sensitive),
+    is_scalar_character(path_pattern),
+    is_scalar_bool(path_case_sensitive),
+    is_scalar_bool(recursive)
   )
 
   files <- list.files(
     dir,
     full.names = TRUE,
-    pattern = file_pattern,
-    ignore.case = !file_case_sensitive,
+    pattern = path_pattern,
+    ignore.case = !path_case_sensitive,
     recursive = recursive,
     all.files = TRUE
   )
@@ -135,8 +138,8 @@ sifkw <- function(
   markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
   fixed = FALSE,
   case_sensitive = FALSE,
-  file_pattern = "(.*\\.R$)|(.*\\.Rmd$)|(.*\\.Rnw$))",
-  file_case_sensitive = FALSE,
+  path_pattern = getOption("sifr.path_pattern"),
+  path_case_sensitive = FALSE,
   recursive = TRUE
 ){
   assert(is.character(keywords))
@@ -145,8 +148,8 @@ sifkw <- function(
     dir = dir,
     fixed = FALSE,
     case_sensitive = case_sensitive,
-    file_pattern = file_pattern,
-    file_case_sensitive = file_case_sensitive,
+    path_pattern = path_pattern,
+    path_case_sensitive = path_case_sensitive,
     recursive = recursive,
     markers = FALSE
   )

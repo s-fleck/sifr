@@ -1,0 +1,50 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "140%"
+)
+```
+# sifr: search in files 
+
+<!-- badges: start -->
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+<!-- badges: end -->
+
+sifr is a tool for searching text strings and regular expression patterns 
+recursively in directory trees from within R. It supports coloured console 
+output, RStudio source markers, and can also return the search results as
+a `data.frame` for further processing. In addtion, sifr provides 
+`sed_replace()` on supported platforms (such as Linux, BSD, macOS) for replacing 
+regex patterns across directory trees via [sed](https://en.wikipedia.org/wiki/Sed).
+
+
+## Installation
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("s-fleck/sifr")
+```
+## Example
+
+```{r example}
+library(sifr)
+
+tf <- tempfile(fileext = ".csv")
+write.csv(cars, tf)
+
+x <- sif("26", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
+print(x)
+as.data.frame(x)
+```

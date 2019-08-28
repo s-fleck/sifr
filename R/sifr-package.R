@@ -1,5 +1,14 @@
 #' @keywords internal
 #' @importFrom data.table data.table
+#'
+#' @section Options:
+#'
+#' \describe{
+#' \item{`sifr.path_pattern`}{A `character` scalar containing a `regex` pattern
+#'   to match file paths against. This is used as the default for [sif()]
+#'   and co.}
+#' }
+#'
 "_PACKAGE"
 
 
@@ -9,6 +18,14 @@
 .onLoad <- function(...){
   op <- options()
   op.this <- list()
+
+  op.this[["sifr.path_pattern"]] <-
+    "(.*\\.R$)|(.*\\.Rmd$)|(.*\\.Rnw$)|(.*\\.Rhtml$)|(.*\\.cpp$)|(.*\\.c$))"
+
+
+  toset <- !(names(op.this) %in% names(op))
+  if(any(toset)) options(op.this[toset])
+
 
   # +- colors --------------------------------------------------------------
   if (requireNamespace("colt", quietly = TRUE) && crayon::has_color()){
@@ -35,5 +52,7 @@
   assign("style_path", style_path, envir = parent.env(environment()))
   assign("style_subtle", style_subtle, envir = parent.env(environment()))
   assign("style_kw", style_kw, envir = parent.env(environment()))
+
+
 }
 
