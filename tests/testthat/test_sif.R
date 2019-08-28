@@ -4,7 +4,7 @@ context("sif")
 test_that("sif works as expected", {
   d <- testthis::find_testdata()
   y <- sif(d, pattern = "match_me_sif_.*", fixed = TRUE, markers = FALSE)
-  expect_null(y)
+  expect_identical(nrow(y), 0L)
   y <- sif(d, pattern = "match_me_sif_.*", fixed = FALSE, markers = FALSE)
 
   expect_true(any(grepl("sif_test.r", y$path)))

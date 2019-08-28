@@ -23,6 +23,8 @@
 #' @param recursive `logical` scalar. If `TRUE` files are searched recursively
 #'   starting from `dir`.
 #' @param encoding passed on to [base::readLines()]
+#' @param markers `logical` scalar. Display results in the RStudio source
+#'   markers pane.
 #'
 #' @return
 #'   A `sif_result` or `sifkw_results` `data.table` with the columns:
@@ -49,7 +51,7 @@
 #'  as.data.frame(x)
 #'  attr(x, "pattern")
 #'
-#'  if (requireNamespace("rstudioapi")){
+#'  if (requireNamespace("rstudioapi") && interactive()){
 #'    print(x, markers = TRUE)
 #'  }
 #'  unlink(tf)  #cleanup
@@ -97,22 +99,21 @@ sif <- function(
       )
     }
   )
-  res <- data.table::rbindlist(res)
 
-  if (identical(nrow(res), 0L)){
-    message(sprintf(
-      "No files found in '%s' that containt the%spattern '%s'\n",
-      style_accent(normalizePath(dir)),
-      ifelse(fixed, " ", " regex "),
-      style_accent(pattern)
-    ))
-
-    return(invisible())
+  if (length(res)){
+    res <- data.table::rbindlist(res)
+  } else {
+    res <- data.table(
+      path = character(),
+      ln = integer(),
+      pos = list(),
+      contents = character()
+    )
   }
 
   res <- as_sif_result(res, pattern)
 
-  if (markers){
+  if (markers && nrow(res) > 0){
     source_markers(res)
     invisible(res)
   } else {
@@ -128,7 +129,7 @@ sif <- function(
 #' contain a `keywords: ` directive in the YAML header or `@keywords` roxygen
 #' tags.
 #'
-#' @keywords a `character` vector of keywords
+#' @param keywords a `character` vector of keywords
 #'
 #' @rdname sif
 #' @export
@@ -143,6 +144,7 @@ sifkw <- function(
   recursive = TRUE
 ){
   assert(is.character(keywords))
+
   res <- sifr::sif(
     paste0("keyword"),
     dir = dir,
@@ -154,22 +156,25 @@ sifkw <- function(
     markers = FALSE
   )
 
-  if (!fixed){
-    res[, pos := list(stringi::stri_locate_all_regex(res$contents, paste0("(", keywords , ")", collapse  = "|"))) ]
+  if (nrow(res) > 0){
+    pos <- NULL  # for R CMD CHECK
+    if (!fixed){
+      res[, pos := list(stringi::stri_locate_all_regex(res$contents, paste0("(", keywords , ")", collapse  = "|"))) ]
 
-  } else {
-    matches <- list()
+    } else {
+      matches <- list()
 
-    for (kw in keywords){
-      matches[[kw]] <- stringi::stri_locate_all_fixed(res$contents, kw)
+      for (kw in keywords){
+        matches[[kw]] <- stringi::stri_locate_all_fixed(res$contents, kw)
+      }
+
+      matches <- do.call(
+        mapply,
+        c(list(rbindsort, SIMPLIFY = FALSE, USE.NAMES = FALSE), matches)
+      )
+
+      res[, pos := matches]
     }
-
-    matches <- do.call(
-      mapply,
-      c(list(rbindsort, SIMPLIFY = FALSE, USE.NAMES = FALSE), matches)
-    )
-
-    res[, pos := matches]
   }
 
   res <- as_sifkw_result(
@@ -177,7 +182,7 @@ sifkw <- function(
     keywords
   )
 
-  if (markers){
+  if (markers && nrow(res) > 0){
     source_markers(res)
     invisible((res))
   } else {

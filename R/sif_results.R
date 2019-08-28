@@ -19,6 +19,7 @@ as_sifkw_result <- function(x, keywords){
 #' Printing Sif Results
 #'
 #' @param x a `sif_result`
+#' @inheritParams sif
 #' @param ... ignored
 #'
 #' @return `x` (invisibly)
@@ -30,8 +31,8 @@ print.sif_result <- function(
   ...
 ){
   assert(is_scalar_bool(markers))
-
   cat("Results for", style_accent(attr(x, "pattern")), "\n")
+  ln <- pos <- NULL
 
   # early exits
     if (nrow(x) < 1){
@@ -66,20 +67,15 @@ print.sif_result <- function(
 
 
 
-#' Printing Sif Results
-#'
-#' @param x a `sif_result`
-#' @param ... ignored
-#'
-#' @return `x` (invisibly)
+#' @rdname print.sif_result
 #' @export
-#'
 print.sifkw_result <- function(
   x,
   markers = FALSE,
   ...
 ){
   assert(is_scalar_bool(markers))
+  ln <- pos <- NULL
 
   kw <- vapply(attr(x, "keywords"), style_accent, character(1))
   kw <-paste(kw, collapse = ", ")
@@ -140,6 +136,10 @@ color_at_pos = function(text, pos, color = style_accent){
 
 
 source_markers <- function(x){
+  if (!requireNamespace("rstudioapi", quietly = TRUE)){
+    stop("Source markers are only available in RStudio", call. = FALSE)
+  }
+
   if (inherits(x, "sifkw_result"))
     name <- paste("sifkw:", paste(attr(x, "keywords"), collapse = ", "))
   else if (inherits(x, "sif_result"))
@@ -155,6 +155,6 @@ source_markers <- function(x){
       message = x$contents,
       stringsAsFactors = FALSE
     ),
-    basePath = fs::path_common(x$path)
+    basePath = fs::path_common(fs::path_real(x$path))
   )
 }

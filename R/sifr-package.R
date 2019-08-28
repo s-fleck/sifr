@@ -14,6 +14,8 @@
 
 
 
+utils::globalVariables(":=")
+
 
 .onLoad <- function(...){
   op <- options()
@@ -52,7 +54,8 @@
   assign("style_path", style_path, envir = parent.env(environment()))
   assign("style_subtle", style_subtle, envir = parent.env(environment()))
   assign("style_kw", style_kw, envir = parent.env(environment()))
-
-
 }
+
+
+
 
