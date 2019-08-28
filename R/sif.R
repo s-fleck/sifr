@@ -52,7 +52,7 @@
 #'  if (requireNamespace("rstudioapi")){
 #'    print(x, markers = TRUE)
 #'  }
-#'
+#'  unlink(tf)  #cleanup
 sif <- function(
   pattern,
   dir = ".",

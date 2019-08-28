@@ -38,7 +38,7 @@ x <- sif("26", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
 print(x)
 #> Results for 26 
 #> 
-#> /tmp/RtmpFEuxRk/file6af53c174426.csv
+#> /tmp/RtmpQ1WmU1/file73292f5f6eae.csv
 #>  9   "8",10,26 
 #> 17   "16",13,26 
 #> 21   "20",14,26 
@@ -46,9 +46,32 @@ print(x)
 #> 27   "26",15,54
 as.data.frame(x)
 #>                                   path ln   pos   contents
-#> 1 /tmp/RtmpFEuxRk/file6af53c174426.csv  9  8, 9  "8",10,26
-#> 2 /tmp/RtmpFEuxRk/file6af53c174426.csv 17 9, 10 "16",13,26
-#> 3 /tmp/RtmpFEuxRk/file6af53c174426.csv 21 9, 10 "20",14,26
-#> 4 /tmp/RtmpFEuxRk/file6af53c174426.csv 26 9, 10 "25",15,26
-#> 5 /tmp/RtmpFEuxRk/file6af53c174426.csv 27  2, 3 "26",15,54
+#> 1 /tmp/RtmpQ1WmU1/file73292f5f6eae.csv  9  8, 9  "8",10,26
+#> 2 /tmp/RtmpQ1WmU1/file73292f5f6eae.csv 17 9, 10 "16",13,26
+#> 3 /tmp/RtmpQ1WmU1/file73292f5f6eae.csv 21 9, 10 "20",14,26
+#> 4 /tmp/RtmpQ1WmU1/file73292f5f6eae.csv 26 9, 10 "25",15,26
+#> 5 /tmp/RtmpQ1WmU1/file73292f5f6eae.csv 27  2, 3 "26",15,54
+
+
+sed_replace("26", "twentysix", dir = dirname(tf), path_pattern = ".*\\.csv$")
+#> Results for 26 
+#> 
+#> /tmp/RtmpQ1WmU1/file73292f5f6eae.csv
+#>  9   "8",10,26 
+#> 17   "16",13,26 
+#> 21   "20",14,26 
+#> 26   "25",15,26 
+#> 27   "26",15,54
+sif("26", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
+#> No files found in '/tmp/RtmpQ1WmU1' that containt the regex pattern '26'
+sif("twentysix", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
+#> Results for twentysix 
+#> 
+#> /tmp/RtmpQ1WmU1/file73292f5f6eae.csv
+#>  9   "8",10,twentysix 
+#> 17   "16",13,twentysix 
+#> 21   "20",14,twentysix 
+#> 26   "25",15,twentysix 
+#> 27   "twentysix",15,54
+unlink(tf)
 ```

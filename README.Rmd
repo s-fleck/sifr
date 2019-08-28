@@ -47,4 +47,10 @@ write.csv(cars, tf)
 x <- sif("26", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
 print(x)
 as.data.frame(x)
+
+
+sed_replace("26", "twentysix", dir = dirname(tf), path_pattern = ".*\\.csv$")
+sif("26", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
+sif("twentysix", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
+unlink(tf)
 ```
