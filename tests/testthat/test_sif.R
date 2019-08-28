@@ -16,6 +16,10 @@ test_that("sif works as expected", {
 
 test_that("color_at_pos", {
 
+  if (!crayon::has_color()){
+    skip("Terminal does not support colors")
+  }
+
   pos <- matrix(c(5, 10, 8, 12), ncol = 2, dimnames = list(NULL, c("start", "end")))
 
   expect_identical(
