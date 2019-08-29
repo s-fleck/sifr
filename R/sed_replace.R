@@ -50,7 +50,7 @@ sed_replace <- function(
     return(invisible())
   }
 
-  opt_case <- {if (case_sensitive) {
+  opt_case <- {if (isFALSE(case_sensitive)) {
     if (Sys.info()["sysname"] == "Darwin"){
       warning("`case_sensitive` == FALSE is not supported on MacOS")
     }
