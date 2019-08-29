@@ -51,14 +51,14 @@
 #'  as.data.frame(x)
 #'  attr(x, "pattern")
 #'
-#'  if (requireNamespace("RStudioapi") && interactive()){
+#'  if (interactive() && requireNamespace("rstudioapi", quietly = TRUE)){
 #'    print(x, markers = TRUE)
 #'  }
 #'  unlink(tf)  #cleanup
 sif <- function(
   pattern,
   dir = ".",
-  markers = interactive() && requireNamespace("RStudioapi", quietly = TRUE),
+  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
   fixed = FALSE,
   case_sensitive = TRUE,
   path_pattern = getOption("sifr.path_pattern"),
@@ -136,7 +136,7 @@ sif <- function(
 sifkw <- function(
   keywords,
   dir = ".",
-  markers = interactive() && requireNamespace("RStudioapi", quietly = TRUE),
+  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
   fixed = FALSE,
   case_sensitive = FALSE,
   path_pattern = getOption("sifr.path_pattern"),
