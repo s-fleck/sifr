@@ -1,22 +1,22 @@
-#' Detect pattern accross multiple files
+#' Detect pattern across multiple files
 #'
 #' `sif()` recursively searches all files inside a directory for a term
-#' (usually a regex pattern). If used interactively from Rstudio it defaults
+#' (usually a regex pattern). If used interactively from RStudio it defaults
 #' to displaying the results in the Markers pane. This is very similar to
 #' RStudios *find in files* feature, but has the advantage that the search
 #' results are also returned as a `data.frame` that can be further processed.
 #'
 #' @param pattern `character` scalar. A pattern for which to search in files.
 #' @param fixed `logical` scalar. If `FALSE` `pattern` is
-#'   intepreted as regular expression, else the string is matched as-is.
+#'   interpreted as regular expression, else the string is matched as-is.
 #' @param dir `character` scalar. A file system path to the directory in which
 #'   files should be search.
 #' @param case_sensitive `logical` scalar. If `TRUE` `pattern` is matched
-#'   case sensitvely.
+#'   case sensitively.
 #' @param path_pattern `character` scalar. A regular expression pattern to match
 #'   file paths against. Defaults to common source files for R
 #'   (`.R`, `.Rmd`, `Rnw`, `Rhtml`, `c`, `cpp`). Please note that `.Rd` files
-#'   are *not* included by default. You can modify the default behaviour by
+#'   are *not* included by default. You can modify the default behavior by
 #'   setting the [option()] `sifr.path_pattern`.
 #' @param path_case_sensitive `logical`. If `TRUE` `path_pattern` is matched
 #'   case sensitively.
@@ -51,14 +51,14 @@
 #'  as.data.frame(x)
 #'  attr(x, "pattern")
 #'
-#'  if (requireNamespace("rstudioapi") && interactive()){
+#'  if (requireNamespace("RStudioapi") && interactive()){
 #'    print(x, markers = TRUE)
 #'  }
 #'  unlink(tf)  #cleanup
 sif <- function(
   pattern,
   dir = ".",
-  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
+  markers = interactive() && requireNamespace("RStudioapi", quietly = TRUE),
   fixed = FALSE,
   case_sensitive = TRUE,
   path_pattern = getOption("sifr.path_pattern"),
@@ -136,7 +136,7 @@ sif <- function(
 sifkw <- function(
   keywords,
   dir = ".",
-  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
+  markers = interactive() && requireNamespace("RStudioapi", quietly = TRUE),
   fixed = FALSE,
   case_sensitive = FALSE,
   path_pattern = getOption("sifr.path_pattern"),

@@ -3,7 +3,7 @@
 \name{print.sif_result}
 \alias{print.sif_result}
 \alias{print.sifkw_result}
-\title{Printing Sif Results}
+\title{Printing sif results}
 \usage{
 \method{print}{sif_result}(x, markers = FALSE, ...)
 
@@ -21,5 +21,5 @@ markers pane.}
 \code{x} (invisibly)
 }
 \description{
-Printing Sif Results
+Printing sif results
 }

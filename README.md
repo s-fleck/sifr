@@ -13,8 +13,8 @@ status](https://travis-ci.org/s-fleck/sifr.svg?branch=master)](https://travis-ci
 
 sifr is a tool for searching text strings and regular expression
 patterns recursively in directory trees from within R. It supports
-coloured console output, RStudio source markers, and can also return the
-search results as a `data.frame` for further processing. In addtion,
+colored console output, RStudio source markers, and can also return the
+search results as a `data.frame` for further processing. In addition,
 sifr provides `sed_replace()` on supported platforms (such as Linux,
 BSD, macOS) for replacing regex patterns across directory trees via
 [sed](https://en.wikipedia.org/wiki/Sed).
@@ -40,7 +40,7 @@ x <- sif("26", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
 print(x)
 #> Results for 26 
 #> 
-#> /tmp/Rtmp52sMxb/file4cb9283df8f4.csv
+#> /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv
 #>  9   "8",10,26 
 #> 17   "16",13,26 
 #> 21   "20",14,26 
@@ -48,28 +48,28 @@ print(x)
 #> 27   "26",15,54
 as.data.frame(x)
 #>                                   path ln   pos   contents
-#> 1 /tmp/Rtmp52sMxb/file4cb9283df8f4.csv  9  8, 9  "8",10,26
-#> 2 /tmp/Rtmp52sMxb/file4cb9283df8f4.csv 17 9, 10 "16",13,26
-#> 3 /tmp/Rtmp52sMxb/file4cb9283df8f4.csv 21 9, 10 "20",14,26
-#> 4 /tmp/Rtmp52sMxb/file4cb9283df8f4.csv 26 9, 10 "25",15,26
-#> 5 /tmp/Rtmp52sMxb/file4cb9283df8f4.csv 27  2, 3 "26",15,54
+#> 1 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv  9  8, 9  "8",10,26
+#> 2 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv 17 9, 10 "16",13,26
+#> 3 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv 21 9, 10 "20",14,26
+#> 4 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv 26 9, 10 "25",15,26
+#> 5 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv 27  2, 3 "26",15,54
 
 
 sed_replace("26", "twentysix", dir = dirname(tf), path_pattern = ".*\\.csv$")
 #> Results for 26 
 #> 
-#> /tmp/Rtmp52sMxb/file4cb9283df8f4.csv
+#> /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv
 #>  9   "8",10,26 
 #> 17   "16",13,26 
 #> 21   "20",14,26 
 #> 26   "25",15,26 
 #> 27   "26",15,54
 sif("26", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
-#> No files found in '/tmp/Rtmp52sMxb' that containt the regex pattern '26'
+#> No files found in '/tmp/Rtmp3FeKjv' that containt the regex pattern '26'
 sif("twentysix", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
 #> Results for twentysix 
 #> 
-#> /tmp/Rtmp52sMxb/file4cb9283df8f4.csv
+#> /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv
 #>  9   "8",10,twentysix 
 #> 17   "16",13,twentysix 
 #> 21   "20",14,twentysix 

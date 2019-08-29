@@ -2,7 +2,7 @@
 % Please edit documentation in R/sed_replace.R
 \name{sed_replace}
 \alias{sed_replace}
-\title{Replace a matched regular expression pattern accross multiple files}
+\title{Replace a matched regular expression pattern across multiple files}
 \usage{
 sed_replace(pattern, replace, dir = ".", case_sensitive = TRUE,
   path_pattern = getOption("sifr.path_pattern"),
@@ -18,14 +18,14 @@ pattern for which to search in files.}
 files should be search.}
 
 \item{case_sensitive}{\code{logical} scalar. If \code{TRUE} \code{pattern} is matched
-case sensitvely. Please not that this is not supported on BSD
+case sensitively. Please not that this is not supported on BSD
 platforms such as macOS. See
-\href{https://stackoverflow.com/questions/4412945/case-insensitive-search-and-replace-with-sed}{this stackoverflow post}.}
+\href{https://stackoverflow.com/questions/4412945/case-insensitive-search-and-replace-with-sed}{this Stack Overflow post}.}
 
 \item{path_pattern}{\code{character} scalar. A regular expression pattern to match
 file paths against. Defaults to common source files for R
 (\code{.R}, \code{.Rmd}, \code{Rnw}, \code{Rhtml}, \code{c}, \code{cpp}). Please note that \code{.Rd} files
-are \emph{not} included by default. You can modify the default behaviour by
+are \emph{not} included by default. You can modify the default behavior by
 setting the \code{\link[=option]{option()}} \code{sifr.path_pattern}.}
 
 \item{path_case_sensitive}{\code{logical}. If \code{TRUE} \code{path_pattern} is matched
@@ -46,13 +46,13 @@ into a version control system like \emph{git}.
 \section{Notes}{
 
 
-\emph{sed} has its own flavour of regular expression that does not support all
+\emph{sed} has its own flavor of regular expression that does not support all
 features. The exact features supported are platform dependent (e.g.
 case insensitive matching is not supported on macOS).
 }
 
 \section{Side Effects}{
- Replaces text that matches \code{pattern} accross all
+ Replaces text that matches \code{pattern} across all
 files that match \code{path_pattern} with \code{replace}.
 }
 

@@ -3,16 +3,16 @@
 \name{sif}
 \alias{sif}
 \alias{sifkw}
-\title{Detect pattern accross multiple files}
+\title{Detect pattern across multiple files}
 \usage{
 sif(pattern, dir = ".", markers = interactive() &&
-  requireNamespace("rstudioapi", quietly = TRUE), fixed = FALSE,
+  requireNamespace("RStudioapi", quietly = TRUE), fixed = FALSE,
   case_sensitive = TRUE, path_pattern = getOption("sifr.path_pattern"),
   path_case_sensitive = FALSE, recursive = TRUE,
   encoding = "unknown")
 
 sifkw(keywords, dir = ".", markers = interactive() &&
-  requireNamespace("rstudioapi", quietly = TRUE), fixed = FALSE,
+  requireNamespace("RStudioapi", quietly = TRUE), fixed = FALSE,
   case_sensitive = FALSE,
   path_pattern = getOption("sifr.path_pattern"),
   path_case_sensitive = FALSE, recursive = TRUE)
@@ -27,15 +27,15 @@ files should be search.}
 markers pane.}
 
 \item{fixed}{\code{logical} scalar. If \code{FALSE} \code{pattern} is
-intepreted as regular expression, else the string is matched as-is.}
+interpreted as regular expression, else the string is matched as-is.}
 
 \item{case_sensitive}{\code{logical} scalar. If \code{TRUE} \code{pattern} is matched
-case sensitvely.}
+case sensitively.}
 
 \item{path_pattern}{\code{character} scalar. A regular expression pattern to match
 file paths against. Defaults to common source files for R
 (\code{.R}, \code{.Rmd}, \code{Rnw}, \code{Rhtml}, \code{c}, \code{cpp}). Please note that \code{.Rd} files
-are \emph{not} included by default. You can modify the default behaviour by
+are \emph{not} included by default. You can modify the default behavior by
 setting the \code{\link[=option]{option()}} \code{sifr.path_pattern}.}
 
 \item{path_case_sensitive}{\code{logical}. If \code{TRUE} \code{path_pattern} is matched
@@ -64,7 +64,7 @@ search terms
 }
 \description{
 \code{sif()} recursively searches all files inside a directory for a term
-(usually a regex pattern). If used interactively from Rstudio it defaults
+(usually a regex pattern). If used interactively from RStudio it defaults
 to displaying the results in the Markers pane. This is very similar to
 RStudios \emph{find in files} feature, but has the advantage that the search
 results are also returned as a \code{data.frame} that can be further processed.
@@ -79,7 +79,7 @@ results are also returned as a \code{data.frame} that can be further processed.
  as.data.frame(x)
  attr(x, "pattern")
 
- if (requireNamespace("rstudioapi") && interactive()){
+ if (requireNamespace("RStudioapi") && interactive()){
    print(x, markers = TRUE)
  }
  unlink(tf)  #cleanup

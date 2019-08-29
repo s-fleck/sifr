@@ -16,7 +16,7 @@ as_sifkw_result <- function(x, keywords){
 
 
 
-#' Printing Sif Results
+#' Printing sif results
 #'
 #' @param x a `sif_result`
 #' @inheritParams sif
