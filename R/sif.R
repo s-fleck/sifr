@@ -193,6 +193,84 @@ sifkw <- function(
 
 
 
+#' `todo()` a convenince wrapper around `sif()` that searches for
+#'   `TODO/FIXME/XXX/HACK/BUG` comments.
+#'
+#' @seealso
+#'   https://stackoverflow.com/a/7284583/2622641
+#'
+#' @param keywords a `character` vector of keywords
+#'
+#' @rdname sif
+#' @export
+todos <- function(
+  dir = ".",
+  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
+  fixed = FALSE,
+  case_sensitive = TRUE,
+  path_pattern = getOption("sifr.path_pattern"),
+  path_case_sensitive = FALSE,
+  recursive = TRUE,
+  encoding = "unknown"
+){
+  pattern <- "#[']{0,1}\\s*(TODO|FIXME|XXX|HACK|BUG)"
+
+  stopifnot(
+    is_scalar_character(pattern),
+    dir.exists(dir),
+    is_scalar_bool(fixed),
+    is_scalar_bool(case_sensitive),
+    is_scalar_character(path_pattern),
+    is_scalar_bool(path_case_sensitive),
+    is_scalar_bool(recursive)
+  )
+
+  files <- list.files(
+    dir,
+    full.names = TRUE,
+    pattern = path_pattern,
+    ignore.case = !path_case_sensitive,
+    recursive = recursive,
+    all.files = TRUE
+  )
+
+
+  res <- lapply(
+    files,
+    function(f) {
+      grep_file(
+        f,
+        pattern = pattern,
+        case_sensitive = case_sensitive,
+        fixed = fixed,
+        highlight = TRUE,
+        encoding = encoding
+      )
+    }
+  )
+
+  if (length(res)){
+    res <- data.table::rbindlist(res)
+  } else {
+    res <- data.table(
+      path = character(),
+      ln = integer(),
+      pos = list(),
+      contents = character()
+    )
+  }
+
+  res <- as_sif_result(res, pattern)
+
+  if (markers && nrow(res) > 0){
+    source_markers(res)
+    invisible(res)
+  } else {
+    res
+  }
+}
+
+
 # utils -------------------------------------------------------------------
 
 rbindsort <- function(...){

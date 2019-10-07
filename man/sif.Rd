@@ -3,6 +3,7 @@
 \name{sif}
 \alias{sif}
 \alias{sifkw}
+\alias{todos}
 \title{Detect pattern across multiple files}
 \usage{
 sif(pattern, dir = ".", markers = interactive() &&
@@ -16,6 +17,12 @@ sifkw(keywords, dir = ".", markers = interactive() &&
   case_sensitive = FALSE,
   path_pattern = getOption("sifr.path_pattern"),
   path_case_sensitive = FALSE, recursive = TRUE)
+
+todos(dir = ".", markers = interactive() &&
+  requireNamespace("rstudioapi", quietly = TRUE), fixed = FALSE,
+  case_sensitive = TRUE, path_pattern = getOption("sifr.path_pattern"),
+  path_case_sensitive = FALSE, recursive = TRUE,
+  encoding = "unknown")
 }
 \arguments{
 \item{pattern}{\code{character} scalar. A pattern for which to search in files.}
@@ -45,6 +52,8 @@ case sensitively.}
 starting from \code{dir}.}
 
 \item{encoding}{passed on to \code{\link[base:readLines]{base::readLines()}}}
+
+\item{keywords}{a \code{character} vector of keywords}
 
 \item{keywords}{a \code{character} vector of keywords}
 }
@@ -83,4 +92,7 @@ results are also returned as a \code{data.frame} that can be further processed.
    print(x, markers = TRUE)
  }
  unlink(tf)  #cleanup
+}
+\seealso{
+https://stackoverflow.com/a/7284583/2622641
 }
