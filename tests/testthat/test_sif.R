@@ -64,3 +64,13 @@ test_that("sifkw works as expected", {
 
   expect_identical(res, res_fixed)
 })
+
+
+
+
+test_that("assert_dir_exists works", {
+  expect_true(assert_dirs_exist(c(getwd(), getwd())))
+  expect_error(
+    assert_dirs_exist(c(getwd(), "mum???", "dum???")),
+  )
+})

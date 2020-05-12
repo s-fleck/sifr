@@ -68,13 +68,15 @@ sif <- function(
 ){
   stopifnot(
     is_scalar_character(pattern),
-    dir.exists(dir),
     is_scalar_bool(fixed),
     is_scalar_bool(case_sensitive),
     is_scalar_character(path_pattern),
     is_scalar_bool(path_case_sensitive),
     is_scalar_bool(recursive)
   )
+
+  assert_dirs_exist(dir)
+
 
   files <- list.files(
     dir,
@@ -109,6 +111,10 @@ sif <- function(
       pos = list(),
       contents = character()
     )
+  }
+
+  if (ncol(res) > 0){
+    data.table::setkeyv(res, c("path", "ln"))
   }
 
   res <- as_sif_result(res, pattern)
@@ -311,4 +317,23 @@ grep_file <- function(
     pos  = locator(lines, pattern, opts_regex = opts_regex),
     contents = lines
   )
+}
+
+
+
+assert_dirs_exist <- function(
+  dir
+){
+  assert(is.character(dir), "`dir` must be a character vector")
+
+  missing <- dir[!dir.exists(dir)]
+
+  if (length(missing)){
+    stop(
+      "the following directories do not exist:\n",
+      paste("  *", missing, "\n"), call. = FALSE
+    )
+  } else {
+    TRUE
+  }
 }

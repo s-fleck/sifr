@@ -1,7 +1,7 @@
 Type: Package
 Package: sifr
 Title: Search and Replace in R Source Files
-Version: 0.0.2.9000
+Version: 0.0.2.9001
 Authors@R: 
     person(given = "Stefan",
            family = "Fleck",
