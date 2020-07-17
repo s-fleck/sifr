@@ -4,9 +4,15 @@
 \alias{sed_replace}
 \title{Replace a matched regular expression pattern across multiple files}
 \usage{
-sed_replace(pattern, replace, dir = ".", case_sensitive = TRUE,
+sed_replace(
+  pattern,
+  replace,
+  dir = ".",
+  case_sensitive = TRUE,
   path_pattern = getOption("sifr.path_pattern"),
-  path_case_sensitive = FALSE, recursive = TRUE)
+  path_case_sensitive = FALSE,
+  recursive = TRUE
+)
 }
 \arguments{
 \item{pattern}{\code{character} scalar. A \emph{sed} compatible regular expression

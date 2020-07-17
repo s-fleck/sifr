@@ -6,23 +6,39 @@
 \alias{todos}
 \title{Detect pattern across multiple files}
 \usage{
-sif(pattern, dir = ".", markers = interactive() &&
-  requireNamespace("rstudioapi", quietly = TRUE), fixed = FALSE,
-  case_sensitive = TRUE, path_pattern = getOption("sifr.path_pattern"),
-  path_case_sensitive = FALSE, recursive = TRUE,
-  encoding = "unknown")
+sif(
+  pattern,
+  dir = ".",
+  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
+  fixed = FALSE,
+  case_sensitive = TRUE,
+  path_pattern = getOption("sifr.path_pattern"),
+  path_case_sensitive = FALSE,
+  recursive = TRUE,
+  encoding = "unknown"
+)
 
-sifkw(keywords, dir = ".", markers = interactive() &&
-  requireNamespace("rstudioapi", quietly = TRUE), fixed = FALSE,
+sifkw(
+  keywords,
+  dir = ".",
+  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
+  fixed = FALSE,
   case_sensitive = FALSE,
   path_pattern = getOption("sifr.path_pattern"),
-  path_case_sensitive = FALSE, recursive = TRUE)
+  path_case_sensitive = FALSE,
+  recursive = TRUE
+)
 
-todos(dir = ".", markers = interactive() &&
-  requireNamespace("rstudioapi", quietly = TRUE), fixed = FALSE,
-  case_sensitive = TRUE, path_pattern = getOption("sifr.path_pattern"),
-  path_case_sensitive = FALSE, recursive = TRUE,
-  encoding = "unknown")
+todos(
+  dir = ".",
+  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
+  fixed = FALSE,
+  case_sensitive = TRUE,
+  path_pattern = getOption("sifr.path_pattern"),
+  path_case_sensitive = FALSE,
+  recursive = TRUE,
+  encoding = "unknown"
+)
 }
 \arguments{
 \item{pattern}{\code{character} scalar. A pattern for which to search in files.}
@@ -54,8 +70,6 @@ starting from \code{dir}.}
 \item{encoding}{passed on to \code{\link[base:readLines]{base::readLines()}}}
 
 \item{keywords}{a \code{character} vector of keywords}
-
-\item{keywords}{a \code{character} vector of keywords}
 }
 \value{
 A \code{sif_result} or \code{sifkw_results} \code{data.table} with the columns:
@@ -63,7 +77,7 @@ A \code{sif_result} or \code{sifkw_results} \code{data.table} with the columns:
 \item \code{path} - path to the file,
 \item \code{ln} - line number,
 \item \code{pos} - a list column of numeric two-column \code{matrices} indicating start
-and end of each match, see \code{\link[stringi:stri_locate_all]{stringi::stri_locate_all()}}
+and end of each match, see \code{\link[stringi:stri_locate]{stringi::stri_locate_all()}}
 \item \code{contents} - the text contents of the line
 }
 
