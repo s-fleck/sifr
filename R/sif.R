@@ -320,6 +320,38 @@ grep_file <- function(
 }
 
 
+grep_paths <- function(
+    x,
+    pattern,
+    fixed = FALSE,
+    case_sensitive = TRUE,
+    highlight = FALSE,
+    encoding = "unknown"
+){
+  lines      <- x
+  opts_regex <- stringi::stri_opts_fixed(case_insensitive = !case_sensitive)
+
+  if (fixed){
+    detector <- stringi::stri_detect_fixed
+    locator  <- stringi::stri_locate_all_fixed
+  } else {
+    detector <- stringi::stri_detect_regex
+    locator  <- stringi::stri_locate_all_regex
+  }
+
+  sel   <- detector(lines, pattern, opts_regex = opts_regex)
+  if (sum(sel) == 0)  return(NULL)
+
+  lines <- lines[sel]
+
+  res <- data.table(
+    ln   = which(sel),
+    pos  = locator(lines, pattern, opts_regex = opts_regex),
+    contents = lines
+  )
+}
+
+
 
 assert_dirs_exist <- function(
   dir

@@ -6,8 +6,7 @@
 \alias{sifr-package}
 \title{sifr: Search and Replace in R Source Files}
 \description{
-Search and replace regex patterns across R source
-    files (and other files).
+Search and replace regex patterns across R source files (and other files).
 }
 \section{Options}{
 
