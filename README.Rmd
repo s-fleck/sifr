@@ -17,8 +17,7 @@ knitr::opts_chunk$set(
 # sifr: search in files 
 
 <!-- badges: start -->
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Travis build status](https://travis-ci.org/s-fleck/sifr.svg?branch=master)](https://travis-ci.org/s-fleck/sifr)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 sifr is a tool for searching text strings and regular expression patterns 

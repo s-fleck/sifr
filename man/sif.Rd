@@ -108,5 +108,5 @@ results are also returned as a \code{data.frame} that can be further processed.
  unlink(tf)  #cleanup
 }
 \seealso{
-https://stackoverflow.com/a/7284583/2622641
+\url{https://stackoverflow.com/a/7284583/2622641}
 }

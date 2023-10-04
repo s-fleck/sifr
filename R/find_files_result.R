@@ -23,7 +23,7 @@ print.find_files_result <- function(
 ){
   assert(is_scalar_bool(markers))
   cat("Results for", style_accent(attr(x, "pattern")), "\n\n")
-  ln <- pos <- NULL
+  ln <- .N <- contents <- NULL
 
   # early exits
   if (nrow(x) < 1){
@@ -31,7 +31,7 @@ print.find_files_result <- function(
     return(invisible(x))
 
   } else if (markers){
-    source_markers(x)
+    as_source_markers(x)
     return(invisible(x))
   }
 
@@ -54,29 +54,4 @@ print.find_files_result <- function(
 
 is_find_files_results <- function(x){
   inherits(x, "find_files_results")
-}
-
-
-
-
-#' @export
-source_markers.find_files_result<- function(x){
-  if (!requireNamespace("rstudioapi", quietly = TRUE)){
-    stop("Source markers are only available in RStudio", call. = FALSE)
-  }
-
-  name <- paste("find files:", attr(x, "pattern"))
-
-  rstudioapi::sourceMarkers(
-    name = name,
-    markers = data.frame(
-      type = "info",
-      file = x$contents,
-      line = x$ln,
-      column = 1,
-      message = x$contents,
-      stringsAsFactors = FALSE
-    ),
-    basePath = fs::path_common(fs::path_real(x$contents))
-  )
 }

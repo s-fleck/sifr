@@ -40,7 +40,7 @@ print.sif_result <- function(
       return(invisible(x))
 
     } else if (markers){
-      source_markers(x)
+      as_source_markers(x)
       return(invisible(x))
     }
 
@@ -88,7 +88,7 @@ print.sifkw_result <- function(
       return(invisible(x))
 
     } else if (markers){
-      source_markers(x)
+      as_source_markers(x)
       return(invisible(x))
     }
 
@@ -130,76 +130,4 @@ color_at_pos = function(text, pos, color = style_accent){
   stringi::stri_sub_all(text, pos[, "start"], pos[, "end"]) <-
     color(stringi::stri_sub(text, pos[, "start"], pos[, "end"]))
   text
-}
-
-
-
-
-#' @export
-source_markers <- function(x){
-  UseMethod("source_markers")
-}
-
-
-
-
-#' @export
-source_markers.sifkw_result <- function(x){
-  if (!requireNamespace("rstudioapi", quietly = TRUE)){
-    stop("Source markers are only available in RStudio", call. = FALSE)
-  }
-
-
-  if (inherits(x, "sifkw_result")){
-    name <- paste("sifkw:", paste(attr(x, "keywords"), collapse = ", "))
-  } else if (inherits(x, "sif_result")) {
-    name <- paste("sif:", attr(x, "pattern"))
-  } else {
-    name <- paste("find files:", attr(x, "pattern"))
-  }
-
-  rstudioapi::sourceMarkers(
-    name = name,
-    markers = data.frame(
-      type = "info",
-      file = x$path,
-      line = x$ln,
-      column = 1,
-      message = x$contents,
-      stringsAsFactors = FALSE
-    ),
-    basePath = fs::path_common(fs::path_real(x$path))
-  )
-}
-
-
-
-
-#' @export
-source_markers.sif_result<- function(x){
-  if (!requireNamespace("rstudioapi", quietly = TRUE)){
-    stop("Source markers are only available in RStudio", call. = FALSE)
-  }
-
-
-  if (inherits(x, "sifkw_result")){
-    name <- paste("sifkw:", paste(attr(x, "keywords"), collapse = ", "))
-  } else if (inherits(x, "sif_result")) {
-    name <- paste("sif:", attr(x, "pattern"))
-  } else {
-    name <- paste("find files:", attr(x, "pattern"))
-  }
-
-  rstudioapi::sourceMarkers(
-    name = name,
-    markers = data.frame(
-      type = "info",
-      file = x$path,
-      line = x$ln,
-      column = 1,
-      message = x$contents,
-      stringsAsFactors = FALSE
-    ),
-    basePath = fs::path_common(fs::path_real(x$path))
-  )
 }

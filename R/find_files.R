@@ -1,5 +1,12 @@
+#' Find files
+#'
+#' Find files based on a regex pattern matched against the file path. Mainly
+#' useful for interactive use.
+#'
+#' @param pattern `character scalar`. A pattern for which to look in filenames
+#'
 #' @export
-#' @inheritParams sifr
+#' @inheritParams sif
 find_files <- function(
     pattern,
     dir = ".",
@@ -21,7 +28,6 @@ find_files <- function(
   )
 
   assert_dirs_exist(dir)
-
 
   files <- list.files(
     dir,
@@ -55,7 +61,7 @@ find_files <- function(
   res <- as_find_files_result(res, pattern)
 
   if (markers && nrow(res) > 0){
-    source_markers(res)
+    as_source_markers(res)
     invisible(res)
   } else {
     res

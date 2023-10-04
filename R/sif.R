@@ -120,7 +120,7 @@ sif <- function(
   res <- as_sif_result(res, pattern)
 
   if (markers && nrow(res) > 0){
-    source_markers(res)
+    as_source_markers(res)
     invisible(res)
   } else {
     res
@@ -189,7 +189,7 @@ sifkw <- function(
   )
 
   if (markers && nrow(res) > 0){
-    source_markers(res)
+    as_source_markers(res)
     invisible((res))
   } else {
     res
@@ -203,7 +203,7 @@ sifkw <- function(
 #'   `TODO/FIXME/XXX/HACK/BUG` comments.
 #'
 #' @seealso
-#'   https://stackoverflow.com/a/7284583/2622641
+#'   \url{https://stackoverflow.com/a/7284583/2622641}
 #'
 #' @param keywords a `character` vector of keywords
 #'
@@ -269,7 +269,7 @@ todos <- function(
   res <- as_sif_result(res, pattern)
 
   if (markers && nrow(res) > 0){
-    source_markers(res)
+    as_source_markers(res)
     invisible(res)
   } else {
     res

@@ -6,9 +6,7 @@
 <!-- badges: start -->
 
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Travis build
-status](https://travis-ci.org/s-fleck/sifr.svg?branch=master)](https://travis-ci.org/s-fleck/sifr)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 sifr is a tool for searching text strings and regular expression
@@ -40,40 +38,61 @@ x <- sif("26", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
 print(x)
 #> Results for 26 
 #> 
-#> /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv
+#> C:/Users/STEFAN~1.FLE/AppData/Local/Temp/Rtmpm07tWz/file8458639fef6.csv
 #>  9   "8",10,26 
 #> 17   "16",13,26 
 #> 21   "20",14,26 
 #> 26   "25",15,26 
 #> 27   "26",15,54
 as.data.frame(x)
-#>                                   path ln   pos   contents
-#> 1 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv  9  8, 9  "8",10,26
-#> 2 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv 17 9, 10 "16",13,26
-#> 3 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv 21 9, 10 "20",14,26
-#> 4 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv 26 9, 10 "25",15,26
-#> 5 /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv 27  2, 3 "26",15,54
+#>                                                                      path ln
+#> 1 C:/Users/STEFAN~1.FLE/AppData/Local/Temp/Rtmpm07tWz/file8458639fef6.csv  9
+#> 2 C:/Users/STEFAN~1.FLE/AppData/Local/Temp/Rtmpm07tWz/file8458639fef6.csv 17
+#> 3 C:/Users/STEFAN~1.FLE/AppData/Local/Temp/Rtmpm07tWz/file8458639fef6.csv 21
+#> 4 C:/Users/STEFAN~1.FLE/AppData/Local/Temp/Rtmpm07tWz/file8458639fef6.csv 26
+#> 5 C:/Users/STEFAN~1.FLE/AppData/Local/Temp/Rtmpm07tWz/file8458639fef6.csv 27
+#>     pos   contents
+#> 1  8, 9  "8",10,26
+#> 2 9, 10 "16",13,26
+#> 3 9, 10 "20",14,26
+#> 4 9, 10 "25",15,26
+#> 5  2, 3 "26",15,54
 
 
 sed_replace("26", "twentysix", dir = dirname(tf), path_pattern = ".*\\.csv$")
+#> Warning in system2("sed", sprintf("-i 's/%s/%s/%s' %s", pattern, replace, :
+#> '"sed"' not found
+
+#> Warning in system2("sed", sprintf("-i 's/%s/%s/%s' %s", pattern, replace, :
+#> '"sed"' not found
+
+#> Warning in system2("sed", sprintf("-i 's/%s/%s/%s' %s", pattern, replace, :
+#> '"sed"' not found
+
+#> Warning in system2("sed", sprintf("-i 's/%s/%s/%s' %s", pattern, replace, :
+#> '"sed"' not found
+
+#> Warning in system2("sed", sprintf("-i 's/%s/%s/%s' %s", pattern, replace, :
+#> '"sed"' not found
 #> Results for 26 
 #> 
-#> /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv
+#> C:/Users/STEFAN~1.FLE/AppData/Local/Temp/Rtmpm07tWz/file8458639fef6.csv
 #>  9   "8",10,26 
 #> 17   "16",13,26 
 #> 21   "20",14,26 
 #> 26   "25",15,26 
 #> 27   "26",15,54
 sif("26", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
-#> No files found in '/tmp/Rtmp3FeKjv' that containt the regex pattern '26'
+#> Results for 26 
+#> 
+#> C:/Users/STEFAN~1.FLE/AppData/Local/Temp/Rtmpm07tWz/file8458639fef6.csv
+#>  9   "8",10,26 
+#> 17   "16",13,26 
+#> 21   "20",14,26 
+#> 26   "25",15,26 
+#> 27   "26",15,54
 sif("twentysix", dir = dirname(tf), markers = FALSE, path_pattern = ".*\\.csv$")
 #> Results for twentysix 
-#> 
-#> /tmp/Rtmp3FeKjv/file4b5a3a81c1c4.csv
-#>  9   "8",10,twentysix 
-#> 17   "16",13,twentysix 
-#> 21   "20",14,twentysix 
-#> 26   "25",15,twentysix 
-#> 27   "twentysix",15,54
+#> No matches found
 unlink(tf)
 ```
