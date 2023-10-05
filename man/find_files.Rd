@@ -7,7 +7,8 @@
 find_files(
   pattern,
   dir = ".",
-  markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
+  markers = interactive() && getOption("sifr.use_markers") &&
+    requireNamespace("rstudioapi", quietly = TRUE),
   fixed = FALSE,
   case_sensitive = TRUE,
   path_pattern = getOption("sifr.path_pattern"),
@@ -48,4 +49,7 @@ starting from \code{dir}.}
 \description{
 Find files based on a regex pattern matched against the file path. Mainly
 useful for interactive use.
+}
+\seealso{
+\code{\link[=open_files]{open_files()}}
 }

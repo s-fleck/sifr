@@ -21,7 +21,10 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 sifr is a tool for searching text strings and regular expression patterns 
-recursively in directory trees from within R. It supports colored console 
+recursively in directory trees from within R. It is mainly a convenience
+utility for **interactive use**.
+
+sifr supports colored console 
 output, RStudio source markers, and can also return the search results as
 a `data.frame` for further processing. In addition, sifr provides 
 `sed_replace()` on supported platforms (such as Linux, BSD, macOS) for replacing 

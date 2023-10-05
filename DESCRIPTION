@@ -1,7 +1,7 @@
 Type: Package
 Package: sifr
 Title: Search and Replace in R Source Files
-Version: 0.0.3
+Version: 0.0.3.9000
 Authors@R: 
     person(given = "Stefan",
            family = "Fleck",
@@ -15,7 +15,8 @@ License: MIT + file LICENSE
 Imports:
     data.table,
     fs,
-    stringi
+    stringi,
+    rlang
 Suggests: 
     colt,
     crayon,

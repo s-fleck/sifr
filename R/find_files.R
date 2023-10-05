@@ -6,11 +6,12 @@
 #' @param pattern `character scalar`. A pattern for which to look in filenames
 #'
 #' @export
+#' @seealso [open_files()]
 #' @inheritParams sif
 find_files <- function(
     pattern,
     dir = ".",
-    markers = interactive() && requireNamespace("rstudioapi", quietly = TRUE),
+    markers = interactive() && getOption("sifr.use_markers") && requireNamespace("rstudioapi", quietly = TRUE),
     fixed = FALSE,
     case_sensitive = TRUE,
     path_pattern = getOption("sifr.path_pattern"),
@@ -60,6 +61,8 @@ find_files <- function(
 
   res <- as_find_files_result(res, pattern)
 
+  assign(".last_find_files", res, sifr_last)
+
   if (markers && nrow(res) > 0){
     as_source_markers(res)
     invisible(res)
@@ -67,3 +70,55 @@ find_files <- function(
     res
   }
 }
+
+
+
+
+#' Open files
+#'
+#' Conveniently open files found via [find_files()]. Requires \pkg{rstudioapi}.
+#'
+#' @param ... either
+#' * `integer` vectors: open file(s) number x of the last [find_files()] result
+#' * `character` vectors: file paths
+#'
+#' @export
+#' @seealso [find_files()]
+#' @examples
+#' \dontrun{
+#'
+#' find_files("sif", markers = FALSE)
+#'
+#' #> Results for sif
+#' #>
+#' #> 1 ./R/sif.R
+#' #> 2 ./R/sif_results.R
+#' #> 3 ./R/sifr-package.R
+#' #> 4 ./tests/testthat/test_sif.R
+#' #> 5 ./tests/testthat/testdata/sif_test.r
+#' #> 6 ./tests/testthat/testdata/sif_test.rMd
+#'
+#' open_files(3, 4)
+#' }
+open_files <- function(...){
+  stopifnot(requireNamespace("rstudioapi", quietly = TRUE))
+
+  x <- c(...)
+
+  last_find_files <- get(".last_find_files", pos = sifr_last)
+
+  if (rlang::is_integerish(x)){
+    paths <- last_find_files$contents[x]
+  } else {
+    paths <- x
+  }
+
+  for (path in paths){
+    rstudioapi::navigateToFile(path)
+  }
+
+  invisible(paths)
+}
+
+
+sifr_last <- new.env()

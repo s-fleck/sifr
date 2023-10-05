@@ -7,6 +7,8 @@
 #' \item{`sifr.path_pattern`}{A `character` scalar containing a `regex` pattern
 #'   to match file paths against. This is used as the default for [sif()]
 #'   and co.}
+#' \item{`sifr.use_markers`}{A `logical` scalar. Whether to use source markers
+#'  by default in [sifr::sif()], [sifr::find_files()], etc..}
 #' }
 #'
 "_PACKAGE"
@@ -24,6 +26,7 @@ utils::globalVariables(":=")
   op.this[["sifr.path_pattern"]] <-
     "(.*\\.R$)|(.*\\.Rmd$)|(.*\\.Rnw$)|(.*\\.Rhtml$)|(.*\\.cpp$)|(.*\\.c$))"
 
+  op.this[["sifr.use_markers"]] <- TRUE
 
   toset <- !(names(op.this) %in% names(op))
   if(any(toset)) options(op.this[toset])

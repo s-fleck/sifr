@@ -15,6 +15,8 @@ Search and replace regex patterns across R source files (and other files).
 \item{\code{sifr.path_pattern}}{A \code{character} scalar containing a \code{regex} pattern
 to match file paths against. This is used as the default for \code{\link[=sif]{sif()}}
 and co.}
+\item{\code{sifr.use_markers}}{A \code{logical} scalar. Whether to use source markers
+by default in \code{\link[=sif]{sif()}}, \code{\link[=find_files]{find_files()}}, etc..}
 }
 }
 
